@@ -1,0 +1,29 @@
+// Variables relacionadas con los colores. Fondo, texto, botones...
+$color-texto: #FFFFFF;
+$color-fondo-1: #90e0ef;
+$color-fondo-2: #1768AC ;
+$color-oscuro: #2541B2 ;
+$color-contraste: #03256C;
+$color-amarillo: yellow;
+$color-negro: black;
+$color-blanco: white;
+$color-boton-eliminar: #6c4675;
+$color-boton-eliminar-hover: #572364;
+$color-boton-warning: #f9e04e;
+$color-boton-warning-hover: #fea700;
+$color-boton-info: #094293;
+$color-boton-info2: #333c87;
+$color-boton-success: #317f43;
+
+// Variables relacionadas con la letra. Tamaño, peso y fuente
+$t-letra: 1rem;
+$peso-cuerpo: 400;
+$peso-medio: 525;
+$peso-titulos: 700;
+$font-size-h1: calc($t-letra * 3);
+$font-size-h2: calc($t-letra * 2);
+$font-size-h3: calc($t-letra * 1.5);
+$font-size-h5: calc($t-letra * 1.3);
+$font-size-li: calc($t-letra * 1.1);
+$font-size-p-footer: calc($t-letra * 0.8);
+$fuente: 'Arial', sans-serif;

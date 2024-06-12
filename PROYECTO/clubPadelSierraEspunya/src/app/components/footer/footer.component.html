@@ -1,0 +1,54 @@
+<!-- VISTA DEL PIE DE PÁGINA COMÚN PARA TODA LA WEB -->
+<!-- ESTÁ COMPUESTO POR 3 PARTES, LA PRIMERA CONTIENE EL LOGO DE LA APLICACIÓN, LA SEGUNDA UN MENÚ DE NAVEGACIÓN CON LAS MISMAS OPCIONES QUE EL MENÚ DE ARRIBA Y LA TERCERA CONTIENE LAS DIFERENTES REDES SOCIALES DE LAS QUE DISPONE EL CLUB -->
+<footer class="container-fluid pie-pagina">
+    <div class="grupo-1">
+        <!-- PRIMERA PARTE DEL PIE. ENCONTRAMOS EL LOGO, EL CUAL TIENE UN ENLACE A LA PANTALLA DE INICIO EN ESE MOMENTO. -->
+        <div class="box">
+            <figure>
+                <!-- VISIBLE SI HAY UN USUARIO LOGUEADO -->
+                <a *ngIf="usuarioLogin" routerLink="/inicio">
+                    <img src="../../../assets/img/logo.jpg" alt="">
+                </a>
+                <!-- VISIBLE SI NO HAY UN USUARIO LOGUEADO -->
+                <a *ngIf="!usuarioLogin" routerLink="">
+                    <img src="../../../assets/img/logo.jpg" alt="">
+                </a>
+            </figure>
+        </div>
+        <!-- SEGUNDA PARTE DEL PIE. ENCONTRAMOS EL MENU SIMILAR AL MENÚ DE NAVEGACIÓN DE ARRIBA, EL CUAL TIENE UN ENLACE A LA PANTALLA DE INICIO EN ESE MOMENTO. -->
+        <!-- ESTE MENÚ APARECE CUANDO HAY UN USUARIO LOGUEADO. TAMBIÉN TIENE LA OPCIÓN DE MI PERFIL QUE APARECE SI EL USUARIO LOGUEADO NO ES EL ADMIN, ADEMÁS DE LA DE
+        SOCIOS QUE APARECE SI EL USUARIO ES ADMIN -->
+        <div *ngIf="usuarioLogin" class="box">
+            <h2>SECCIONES</h2>
+            <div><a routerLink="/inicio">Inicio</a></div>
+            <div *ngIf="!isAdmin"><a routerLink="/inicio/mi-perfil">Mi perfil</a></div>
+            <div *ngIf="isAdmin"><a routerLink="/inicio/socios">Socios</a></div>
+            <div><a routerLink="/inicio/partidos">Partidos</a></div>
+            <div><a routerLink="/inicio/torneos">Torneos</a></div>
+            <div><a routerLink="/inicio/premios">Premios</a></div>
+        </div>
+        <!-- ESTE MENÚ APARECE CUANDO NO ES ADMIN -->
+        <div *ngIf="!usuarioLogin" class="box">
+            <h2>SECCIONES</h2>
+            <div><a routerLink="">Inicio</a></div>
+            <div><a routerLink="/club">El Club</a></div>
+            <div><a routerLink="/instalaciones">Instalaciones</a></div>
+            <div><a routerLink="/torneos">Torneos</a></div>
+            <div><a routerLink="/contacto">Contacto</a></div>
+        </div>
+        <!-- TERCERA PARTE DEL PIE. ESTÁ COMPUESTA POR LOS LOGOS DE LAS REDES SOCIALES DE LAS QUE DISPONDRÍA EL CLUB. COMO EL CLUB ES FICTICIO NO TE LLEVAN A NINGÚN LADO ESTOS ENLACES -->
+        <div class="box">
+            <h2>SIGUENOS</h2>
+            <div class="red-social">
+                <a class="bi bi-facebook"></a>
+                <a class="bi bi-instagram"></a>
+                <a class="bi bi-twitter"></a>
+                <a class="bi bi-youtube"></a>
+            </div>
+        </div>
+    </div>
+    <!-- PARTE FINAL DE PIE. CONTIENE LA INFORMACIÓN SOBRE LOS DERECHOS RESERVADOS -->
+    <div class="grupo-2">
+        <small>&copy; 2024 <b>Club de Pádel Sierra Espuña</b> - Todos los Derechos Reservados.</small>
+    </div>
+</footer>

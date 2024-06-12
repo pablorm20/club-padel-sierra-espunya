@@ -1,0 +1,114 @@
+<!-- VISTA DE LA PÁGINA EDITAR PARTIDO DE LA PÁGINA PRINCIPAL AL HABERSE LOGUEADO -->
+<!-- MENÚ COMÚN DE LA PÁGINA PRINCIPAL CUANDO SE ESTÁ LOGUEADO-->
+<app-menu-inicio-usuario></app-menu-inicio-usuario>
+<div class="container">
+    <div class="card">
+        <!-- TÍTULO DE LA PÁGINA -->
+        <div class="card-header header-forms">
+            Editar Partido
+        </div>
+        <!-- FORMULARIO PARA DAR EDITAR UN PREMIO. ENCONTRAMOS LOS DIFERENTES CAMPOS QUE SE PUEDEN RELLENAR -->
+        <div class="card-body cuerpo-forms">
+            <form ngNativeValidate [formGroup]="formularioPartido" (ngSubmit)="enviarDatos()">
+                <!-- SOCIO 1 -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="">Socio 1:</label>
+                            <select class="form-control" formControlName="socio1">
+                                <option *ngFor="let socio of sociosDisponibles" value="{{socio.id}}">{{ getSocio(socio)
+                                    }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- SOCIOS 2 Y 3 -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="">Socio 2:</label>
+                            <select class="form-control" formControlName="socio2">
+                                <option *ngFor="let socio of sociosDisponibles" value="{{socio.id}}">{{ getSocio(socio)
+                                    }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label for="">Socio 3:</label>
+                            <select class="form-control" formControlName="socio3">
+                                <option *ngFor="let socio of sociosDisponibles" value="{{socio.id}}">{{ getSocio(socio)
+                                    }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- SOCIO 4 Y PISTA -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="">Socio 4:</label>
+                            <select class="form-control" formControlName="socio4">
+                                <option *ngFor="let socio of sociosDisponibles" value="{{socio.id}}">{{ getSocio(socio)
+                                    }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label for="">Pista:</label>
+                            <select class="form-control" formControlName="pista">
+                                <option></option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- FECHA Y HORA -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="">Fecha:</label>
+                            <input required type="date" class="form-control" formControlName="fecha">
+                        </div>
+                        <div class="col-6">
+                            <label for="">Hora:</label>
+                            <select class="form-control" formControlName="hora">
+                                <option *ngFor="let hora of horas" value="{{hora}}">{{hora}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- COMPONENTE QUE NOS MUESTRA SI SE HAN INTRODUCIDO SOCIOS REPETIDOS O SI NO NOS HEMOS INTRODUCIDO COMO JUGADOR-->
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-12" *ngIf="comprobarSociosRepetidos()">
+                            <font color="white">Hay socios repetidos en el partido</font>
+                        </label>
+                        <label class="col-12" *ngIf="!comprobarSociosActualIntroducido()">
+                            <font color="white">Tienes que introducirte como jugador/jugadora</font>
+                        </label>
+                        <label class="col-12" *ngIf="!comprobarSocioValidoIntroducido()">
+                            <font color="white">Tienes que introducir un socio válido en Socio 1</font>
+                        </label>
+                    </div>
+                </div>
+                <!-- BOTONERA DE ACCIONES. EDITAR QUE EDITA UN PARTIDO Y CANCELAR QUE NO HACE NADA. AMBOS NOS LLEVAN A LA PÁGINA PRINCIPAL DE PARTIDOS -->
+                <div class="btn-group" role="group">
+                    <button
+                        *ngIf="this.formularioPartido.valid && !comprobarSociosRepetidos() && comprobarSociosActualIntroducido() && comprobarSocioValidoIntroducido()"
+                        type="submit" class="btn botones-texto-comunes">Editar</button>
+                    <button type="button" routerLink="/inicio/partidos"
+                        class="btn botones-texto-comunes">Cancelar</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<!-- PIE DE PÁGINA COMÚN -->
+<app-footer></app-footer>

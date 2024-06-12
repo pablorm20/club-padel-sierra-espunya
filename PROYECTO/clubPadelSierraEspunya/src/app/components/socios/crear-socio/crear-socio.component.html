@@ -1,0 +1,91 @@
+<!-- VISTA DE LA PÁGINA CREAR SOCIO DE LA PÁGINA PRINCIPAL AL HABERSE LOGUEADO -->
+<!-- MENÚ COMÚN DE LA PÁGINA PRINCIPAL CUANDO SE ESTÁ LOGUEADO-->
+<app-menu-inicio-usuario></app-menu-inicio-usuario>
+<div class="container">
+  <div class="card">
+    <!-- TÍTULO DE LA PÁGINA -->
+    <div class="card-header header-forms">
+      Crear Socio
+    </div>
+    <!-- FORMULARIO PARA DAR DE ALTA UN NUEVO SOCIO. ENCONTRAMOS LOS DIFERENTES CAMPOS QUE SE PUEDEN RELLENAR -->
+    <div class="card-body cuerpo-forms">
+      <form ngNativeValidate [formGroup]="formularioNuevoSocio" (ngSubmit)="enviarDatos()">
+        <!-- NOMBRE Y APELLIDOS -->
+        <div class="form-group">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <label for="">Nombre:</label>
+              <input required type="text" class="form-control" formControlName="nombre" placeholder="Escribe su nombre">
+            </div>
+            <div class="col-12 col-md-6">
+              <label for="">Apellidos:</label>
+              <input required type="text" class="form-control" formControlName="apellidos"
+                placeholder="Escribe sus apellidos">
+            </div>
+          </div>
+        </div>
+        <!-- DNI Y CORREO -->
+        <div class="form-group">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <label for="">Dni:</label>
+              <input required type="text" class="form-control" formControlName="dni" placeholder="Escribe su dni"
+                maxlength="9">
+              <label *ngIf="!validDNI(this.formularioNuevoSocio.get('dni')!.value)">
+                <font color="white">DNI incorrecto</font>
+              </label>
+            </div>
+            <div class="col-12 col-md-6">
+              <label for="">Correo:</label>
+              <input required type="email" class="form-control" formControlName="correo"
+                placeholder="Escribe su correo">
+            </div>
+          </div>
+        </div>
+        <!-- TELEFONO Y USUARIO -->
+        <div class="form-group">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <label for="">Telefono:</label>
+              <input required type="number" class="form-control" formControlName="telefono" maxlength="9"
+                placeholder="Escribe su teléfono">
+              <label *ngIf="!validTelefono(this.formularioNuevoSocio.get('telefono')!.value)">
+                <font color="white">Telefono incorrecto</font>
+              </label>
+            </div>
+            <div class="col-12 col-md-6">
+              <label for="">Usuario:</label>
+              <input required type="text" class="form-control" formControlName="usuario"
+                placeholder="Escribe su usuario">
+            </div>
+          </div>
+        </div>
+        <!-- GENERO -->
+        <div class="form-group">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <label>Género:</label>
+              <select class="form-control" formControlName="genero">
+                <option value="M">Masculino
+                </option>
+                <option value="F">Femenino
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTONERA DE ACCIONES. AÑADIR QUE CREA EL SOCIO Y CANCELAR QUE NO HACE NADA. AMBOS NOS LLEVAN A LA PÁGINA PRINCIPAL DE SOCIOS -->
+        <div class="btn-group" role="group">
+          <button
+            *ngIf="this.formularioNuevoSocio.valid && validDNI(this.formularioNuevoSocio.get('dni')!.value) && validTelefono(this.formularioNuevoSocio.get('telefono')!.value)"
+            type="submit" class="btn botones-texto-comunes">Añadir</button>
+          <button type="button" routerLink="/inicio/socios" class="btn botones-texto-comunes">Cancelar</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+<!-- PIE DE PÁGINA COMÚN -->
+<app-footer></app-footer>

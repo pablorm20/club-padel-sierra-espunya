@@ -1,0 +1,129 @@
+<!-- VISTA DE LA PÁGINA PREMIOS DE LA PÁGINA PRINCIPAL AL HABERSE LOGUEADO -->
+<!-- MENÚ COMÚN DE LA PÁGINA PRINCIPAL CUANDO SE ESTÁ LOGUEADO-->
+<app-menu-inicio-usuario></app-menu-inicio-usuario>
+<div class="container">
+    <div class="card">
+        <!-- CABECERA DE LA PÁGINA. VISIBLE SOLO SI ES ADMIN. ENCONTRAMOS EL BOTÓN PARA CREAR UN NUEVO PREMIO. NOS LLEVA A LA PANTALLA PARA CREAR UN NUEVO PREMIO -->
+        <div *ngIf="isAdmin" class="card-header">
+            <button class="btn botones-texto-comunes" routerLink="/crear-premio">Agregar nuevo premio</button>
+        </div>
+        <!-- VISIBLE SI NO ES ADMIN. RESUMEN DE LOS PREMIOS CANJEADOS POR ESE SOCIO. TAMBIÉN HAY UN BOTÓN QUE NOS ABRE UN MODAL CON LA LISTA DE PREMIOS CANJEADOS POR EL SOCIO -->
+        <div *ngIf="!isAdmin && this.usuarioLogin" class="card-header align-center">
+            <h5 class="col-12 color-blanco">Tus puntos actuales son: {{this.usuarioLogin.puntos_premios}}</h5>
+            <div class="col-12"> <button class="btn botones-texto-comunes" data-toggle="modal"
+                    data-target="#verPremiosCanjeados">Ver premios
+                    canjeados</button></div>
+        </div>
+        <!-- CUERPO DE LA PÁGINA -->
+        <div class="card-body">
+            <!-- TÍTULO -->
+            <h1 class="alineado-centro">Lista de Premios</h1>
+            <div class="table-responsive">
+                <!-- VISIBLE SI ES ADMIN -->
+                <!-- TABLA CON LOS PREMIOS QUE HAY ACTUALMENTE -->
+                <table *ngIf="isAdmin" class="table table-striped table-bordered">
+                    <!-- CABECERAS DE LA TABLA -->
+                    <thead>
+                        <tr>
+                            <th class="ancho-columna-25">NOMBRE</th>
+                            <th class="ancho-columna-20">PUNTOS</th>
+                            <th class="ancho-columna-30">FOTO</th>
+                            <th class="ancho-columna-25">ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- FILAS DE LA TABLA. POR CADA PREMIO ENCONTRAMOS UNA FILA -->
+                        <tr
+                            *ngFor="let premio of premios | paginate: { itemsPerPage: 5, currentPage: page }; let iControl=index">
+                            <td>{{ premio.nombre }}</td>
+                            <td>{{ premio.puntos }}</td>
+                            <td><img [src]="getImagen(premio)" /></td>
+                            <!-- ACCIONES SOBRE LOS PREMIOS -->
+                            <!-- ENCONTRAMOS EDITAR Y BORRAR -->
+                            <td *ngIf="isAdmin">
+                                <button class="btn btn-info" routerLink="/editar-premio/{{ premio.id }}"><span
+                                        class="material-symbols-outlined">
+                                        edit
+                                    </span></button> |
+                                <button class="btn btn-danger" (click)="borrarRegistro(premio.id,iControl)"
+                                    role="button"><span class="material-symbols-outlined">
+                                        delete
+                                    </span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- PAGINACIÓN DE LA TABLA -->
+                <pagination-controls *ngIf="isAdmin" (pageChange)="page = $event" previousLabel="Anterior"
+                    nextLabel="Siguiente"></pagination-controls>
+            </div>
+            <!-- VISIBLE SI NO ES ADMIN -->
+            <!-- ENCONTRAMOS LOS PREMIOS EN FORMA DE LISTA DE 1 EN 1 O DE 3 EN 3 DEPENDIENDO DEL DISPOSITIVO -->
+            <!-- PARA CADA PREMIO TENEMOS IMAGEN, PREMIO Y PUNTOS -->
+            <div *ngIf="!isAdmin">
+                <div class="row">
+                    <div *ngFor="let premio of premios; let iControl=index" class="col-12 col-md-4">
+                        <div class="row alineado-centro">
+                            <img class="col-12" [src]="getImagen(premio)" style="width: 5em;">
+                            <h5 class="col-12 color-blanco">Premio: {{premio.nombre}}</h5>
+                            <h5 class="col-12 color-blanco">Puntos: {{premio.puntos}}</h5>
+                            <!-- BOTONERA DE ACCIONES -->
+                            <!-- BOTÓN QUE NOS INDICA SI PODEMOS CANJEAR EL PREMIO SI TENEMOS PUNTOS Y NO LO TENEMOS YA CANJEADO -->
+                            <!-- BOTÓN DESHABILITADO QUE NOS INDICA QUE NO PODEMOS CANJEAR EL PREMIO -->
+                            <!-- BOTÓN DESHABILITADO QUE NOS INDICA QUE YA HEMOS CANJEADO EL PREMIO -->
+                            <div class="col-12 alineado-centro">
+                                <button *ngIf="comprobarPuntosSuficientes(premio) && !isCanjeado(premio)"
+                                    (click)="canjearPremio(premio)" class="btn btn-success col-6">Canjear</button>
+                                    <!--
+                                <button *ngIf="this.usuarioLogin.puntos_premios < premio.puntos && !isCanjeado(premio)"
+                                    disabled class="btn btn-success col-6">Canjear</button>
+                                    -->
+                                <button *ngIf="isCanjeado(premio)" class="btn btn-info col-6" disabled>Canjeado</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PIE DE PÁGINA COMÚN -->
+<app-footer></app-footer>
+
+<!-- MODAL PARA VER LOS PREMIOS CANJEADOS POR EL SOCIO -->
+<div class="modal" id="verPremiosCanjeados">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- HEADER DEL MODAL -->
+            <div class="modal-header">
+                Premios canjeados
+            </div>
+
+            <!-- CUERPO DEL MODAL -->
+            <!-- ENCONTRAMOS LOS PREMIOS EN FORMA DE LISTA DE 1 EN 1 O DE 2 EN 2 DEPENDIENDO DEL DISPOSITIVO -->
+            <!-- PARA CADA PREMIO TENEMOS FOTO, NOMBRE Y PUNTOS -->
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div *ngFor="let premio of premiosCanjeadosSocio" class="col-12 col-md-6">
+                                <div class="row" style="text-align: center;">
+                                    <img class="col-12" [src]="getImagen(premio)" style="width: 15em;">
+                                    <h5 class="col-12 color-blanco">Premio: {{premio.nombre}}</h5>
+                                    <h5 class="col-12 color-blanco">Puntos: {{premio.puntos}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PIE DEL MODAL. TENEMOS EL BOTÓN VOLVER QUE CIERRA EL MODAL -->
+            <div class="modal-footer">
+                <button type="button" class="btn botones-texto-comunes" data-dismiss="modal">Volver</button>
+            </div>
+
+        </div>
+    </div>
+</div>

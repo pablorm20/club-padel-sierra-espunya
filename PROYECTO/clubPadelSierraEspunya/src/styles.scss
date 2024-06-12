@@ -1,0 +1,715 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+@import 'variables';
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$clubPadelSierraEspunya-primary: mat.define-palette(mat.$indigo-palette);
+$clubPadelSierraEspunya-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$clubPadelSierraEspunya-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$clubPadelSierraEspunya-theme: mat.define-light-theme((color: (primary: $clubPadelSierraEspunya-primary,
+        accent: $clubPadelSierraEspunya-accent,
+        warn: $clubPadelSierraEspunya-warn,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($clubPadelSierraEspunya-theme);
+
+
+/* <<<<<< ------------------------------------------------------------------------------------------------------------------------------------------------------ >>>>>>> */
+/* CLASES GENERALES DE LA APLICACIÓN */
+/* Clase general para reutilizar box-sizing: border-box */
+.border-box {
+  box-sizing: border-box;
+}
+/* Clase aplicable a toda la página. Margin 0, padding 0, box-sizing: border-box y fuente  */
+* {
+  margin: 0;
+  padding: 0;
+  @extend .border-box;
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* Clase para indicar al html y body que ocupen el 100% de la altura */
+html,
+body {
+  height: 100%;
+}
+
+/* Clase para indicar al body margin, fuente, tamaño de letra, color de letra y box-sizing: border-box */
+body {
+  margin: 0;
+  font-family: $fuente;
+  font-size: $t-letra;
+  color: $color-negro;
+  @extend .border-box;
+}
+
+
+/* <<<<<< ------------------------------------------------------------------------------------------------------------------------------------------------------ >>>>>>> */
+/* CLASES PARA ELEMENTOS DE TEXTO DE LA APLICACIÓN */
+/* Estilos para h1 */
+h1 {
+  font-weight: $peso-titulos;
+  font-size: $font-size-h1;
+  color: $color-negro;
+}
+/* Estilos para h2 */
+h2 {
+  font-weight: $peso-titulos;
+  font-size: $font-size-h2;
+  color: $color-negro;
+}
+/* Estilos para h3 */
+h3 {
+  font-weight: $peso-titulos;
+  font-size: $font-size-h3;
+  color: $color-negro;
+}
+/* Estilos para h5 */
+h5 {
+  font-weight: $peso-titulos;
+  font-size: $font-size-h5;
+  color: $color-negro
+}
+/* Clase para aplicar el color de texto por defecto de la aplicación */
+.color-texto {
+  color: $color-texto;
+}
+/* Clase para los textos de inicio. Alineación padding y margin */
+.textosInicio {
+  text-align: justify;
+  padding: 1%;
+  margin-top: 5%;
+}
+/* Clase para los bloques de los textos de inicio. Alineación padding y margin */
+.bloque-texto-inicio {
+  margin: 2%;
+  padding: 2%;
+  text-align: justify;
+}
+/* Al text area se le aplica que tenga tamaño fijo */
+textarea {
+  resize: none;
+}
+.textos-cabeceras-inicio{
+  .lead{
+    color: $color-amarillo !important;
+  }
+  h1,
+  h2,
+  h3 {
+    color: $color-amarillo !important;
+    text-align: center;
+    margin: 1%;
+    padding: 1%;
+    padding-top: 5vh;
+  }
+}
+.textos-enlaces-inicio{
+  h1{
+    color: $color-blanco !important;
+  }
+}
+
+/* <<<<<< ------------------------------------------------------------------------------------------------------------------------------------------------------ >>>>>>> */
+/* CLASES PARA EL MENÚ DE NAVEGACIÓN */
+/* Estilos para nav. Menú de navegación. Internamente también se le aplican estilos a los elementos ul, li y a hijos de la clase navbar */
+.navbar {
+  background-color: $color-oscuro !important;
+
+  ul {
+    li {
+      &:hover {
+        background-color: $color-fondo-2;
+      }
+
+      a {
+        text-decoration: none;
+        color: $color-texto;
+
+        &:hover {
+          color: $color-amarillo;
+        }
+      }
+    }
+  }
+}
+
+
+/* <<<<<< ------------------------------------------------------------------------------------------------------------------------------------------------------ >>>>>>> */
+/* CLASES PARA LOS BOTONES DE LA APLICACIÓN */
+/* Estilos para los botones comunes de la aplicación. Los que encontramos para hacer acciones básicas de la aplicación */
+.botones-texto-comunes {
+  background-color: $color-fondo-1;
+  color: $color-negro;
+  margin-right: 5%;
+
+  &:hover {
+    background-color: $color-amarillo;
+  }
+}
+/* A la clase general de button se le aplica alineado de texto al centro */
+button {
+  text-align: center;
+}
+/* Se edita la clase btn-danger para cambiar los colores de fondo y borde */
+.btn-danger {
+  background-color: $color-boton-eliminar !important;
+  border-color: $color-boton-eliminar !important;
+
+  &:hover {
+    background-color: $color-amarillo !important;
+    border-color: $color-amarillo !important;
+    color: $color-negro;
+  }
+}
+/* Se edita la clase btn-warning para cambiar los colores de fondo y borde */
+.btn-warning {
+  background-color: $color-boton-warning !important;
+  border-color: $color-boton-warning !important;
+
+  &:hover {
+    background-color: $color-boton-warning-hover !important;
+    border-color: $color-boton-warning-hover !important;
+  }
+}
+/* Se edita la clase btn-dark para cambiar los colores de fondo y borde */
+.btn-dark {
+  &:hover {
+    background-color: $color-amarillo !important;
+    border-color: $color-amarillo !important;
+    color: $color-negro;
+  }
+}
+/* Se edita la clase btn-info para cambiar los colores de fondo y borde */
+.btn-info {
+  background-color: $color-boton-info !important;
+  border-color: $color-boton-info !important;
+
+  &:hover {
+    background-color: $color-amarillo !important;
+    border-color: $color-amarillo !important;
+    color: $color-negro;
+  }
+}
+/* Se edita la clase btn-success para cambiar los colores de fondo y borde */
+.btn-success {
+  background-color: $color-boton-success !important;
+  border-color: $color-boton-success !important;
+
+  &:hover {
+    background-color: $color-amarillo !important;
+    border-color: $color-amarillo !important;
+    color: $color-negro;
+  }
+}
+/* Se crea la clase btn-info-2 para establecer colores de fondo y borde */
+.btn-info-2 {
+  background-color: $color-boton-info2 !important;
+  border-color: $color-boton-info2 !important;
+  color: $color-blanco;
+
+  &:hover {
+    background-color: $color-amarillo !important;
+    border-color: $color-amarillo !important;
+    color: $color-negro;
+  }
+}
+
+
+/* <<<<<< ------------------------------------------------------------------------------------------------------------------------------------------------------ >>>>>>> */
+/* CLASES PARA FONDOS Y PANTALLAS DE LA APLICACIÓN */
+/* Clase para uno de los colores de fondo de la aplicación */
+.fondo1 {
+  background-color: $color-fondo-1;
+}
+/* Clase para otro de los colores de fondo de la aplicación */
+.fondo2 {
+  background-color: $color-fondo-2;
+}
+/* Clases propias de bootstrap editadas para la aplicación. Se aplican estilos para las cabeceras de las pantallas y de los modales emergentes */
+.header-forms,
+.modal-header {
+  background-color: $color-fondo-2;
+  font-weight: $peso-titulos;
+  font-size: $font-size-h2;
+  text-align: center;
+  .botones-texto-comunes {
+    margin-right: 0;
+  }
+  color: $color-amarillo;
+}
+/* Clase propia de bootstrap editada para la aplicación. Se aplican estilos para las cabeceras de las cards*/
+.card-header {
+  text-align: center;
+  background-color: $color-fondo-2;
+  font-size: $font-size-h2;
+  .botones-texto-comunes {
+    margin-right: 0;
+  }
+  color: $color-amarillo;
+}
+/* Clases propias de bootstrap editadas para la aplicación. Se aplican estilos para los cuerpos de las pantallas, los modales emergentes y las cards */
+.cuerpo-forms,
+.card-body,
+.modal-body {
+  background-color: $color-fondo-2;
+
+  label {
+    font-weight: $peso-titulos;
+  }
+  h1{
+    color: $color-amarillo;
+  }
+}
+/* A la clase de bootstrap modal-footer se le aplica un color de fondo y a los hijos que tenga la clase botones-texto-comunes se le quita el margen por la derecha*/
+.modal-footer {
+  background-color: $color-contraste;
+
+  .botones-texto-comunes {
+    margin-right: 0;
+  }
+}
+/* Clase aplicable a la cabecera de los partidos. Color de fondo, texto y peso del texto */
+.cabecera-partidos {
+  background-color: $color-fondo-2;
+  font-weight: $peso-titulos;
+  color: $color-texto;
+}
+/* Clase aplicable a cada pista de partido. Color de texto */
+.pistaPartido {
+  color: $color-negro;
+  h2{
+    color: $color-blanco;
+  }
+}
+/* Clase aplicable a cada partido. Color de texto, borde, color de fondo, padding y altura mínima */
+.partido {
+  min-height: 7em;
+  border: solid 1px $color-blanco;
+  background-color: $color-fondo-1;
+  padding: 1%;
+  color: $color-negro;
+}
+/* Clase para lograr efecto parallax */
+.parallax {
+  /* The image used */
+  background-image: url("assets/img/foto-instalaciones.jpg");
+
+  /* Set a specific height */
+  min-height: 150px;
+  width: 100%;
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  @extend .textos-cabeceras-inicio;
+}
+/* Clase para lograr efecto parallax en la pantalla de inicio */
+.parallax-inicio {
+  /* The image used */
+  background-image: url("assets/img/foto-instalaciones2.jpg");
+
+  /* Set a specific height */
+  min-height: 300px;
+  width: 100%;
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  @extend .textos-cabeceras-inicio;
+}
+/* Clase para lograr efecto parallax en la pantalla de contacto */
+.parallax-contacto {
+  /* The image used */
+  background-image: url("assets/img/foto-instalaciones2.jpg");
+
+  /* Set a specific height */
+  min-height: 175px;
+  width: 100%;
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  @extend .textos-cabeceras-inicio;
+}
+/* Clase para lograr efecto parallax en la pantalla de club */
+.parallax-club {
+  /* The image used */
+  background-image: url("assets/img/foto-instalaciones2.jpg");
+
+  /* Set a specific height */
+  min-height: 175px;
+  width: 100%;
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  @extend .textos-cabeceras-inicio;
+}
+/* Clase para la información del club. Se aplica alineación de texto general y en h2 y para los hijos que tengan la clase texto-tarjetas se le aplica padding general y en los elementos p y ul */
+.informacion-club {
+  text-align: justify;
+
+  h2 {
+    text-align: center;
+  }
+
+  .texto-tarjetas {
+
+    p,
+    ul {
+      padding-top: 2%;
+      padding-left: 2%;
+      padding-right: 2%;
+      padding-bottom: 2%;
+    }
+
+    padding: 5% 0;
+  }
+}
+/* Clase para aplicar estilo a las fotos con enlaces que encontramos en las páginas principales. Padding general y estilos a nivel de h1 y a */
+.secciones-inicio {
+  padding: 2%;
+
+  a,
+  h1 {
+    text-decoration: none;
+  }
+
+  h1 {
+    color: $color-negro;
+    font-size: 5rem;
+  }
+
+  a {
+    margin-top: 2%;
+    margin-bottom: 2%;
+  }
+}
+/* Clase para el elemento club de los enlaces en las pantallas principales */
+.bienvenida-club {
+  background: url(assets/img/foto-instalaciones-azul3.jpg) no-repeat center;
+  background-size: cover;
+  height: 20vh;
+  overflow: hidden;
+  @extend .textos-enlaces-inicio;
+  @extend .centrado;
+  &:hover {
+    @extend .zoom;
+  }
+}
+/* Clase para el elemento instalaciones de los enlaces en las pantallas principales */
+.bienvenida-instalaciones {
+  background: url(assets/img/sauna-azul.jpg) no-repeat center;
+  background-size: cover;
+  height: 20vh;
+  overflow: hidden;
+  @extend .textos-enlaces-inicio;
+  @extend .centrado;
+  &:hover {
+    @extend .zoom;
+  }
+}
+/* Clase para el elemento torneos de los enlaces en las pantallas principales */
+.bienvenida-torneos {
+  background: url(assets/img/pista-azul.jpg) no-repeat center;
+  background-size: cover;
+  height: 20vh;
+  overflow: hidden;
+  @extend .textos-enlaces-inicio;
+  @extend .centrado;
+  &:hover {
+    @extend .zoom;
+  }
+}
+/* Clase para el elemento contacto de los enlaces en las pantallas principales */
+.bienvenida-contacto {
+  background: url(assets/img/fondo-pista-azul3.jpg) no-repeat center;
+  background-size: cover;
+  height: 20vh;
+  overflow: hidden;
+  @extend .textos-enlaces-inicio;
+  @extend .centrado;
+  &:hover {
+    @extend .zoom;
+  }
+}
+/* Clase para el elemento premios de los enlaces en las pantallas principales */
+.bienvenida-premios {
+  background: url(assets/img/palas-azul2.jpg) no-repeat center;
+  background-size: cover;
+  height: 20vh;
+  overflow: hidden;
+  @extend .textos-enlaces-inicio;
+  @extend .centrado;
+  &:hover {
+    @extend .zoom;
+  }
+}
+/* Clase para el elemento partidos de los enlaces en las pantallas principales */
+.bienvenida-partidos {
+  background: url(assets/img/foto-instalaciones-azul2.jpg) no-repeat center;
+  background-size: cover;
+  height: 20vh;
+  overflow: hidden;
+  @extend .textos-enlaces-inicio;
+  @extend .centrado;
+  &:hover {
+    @extend .zoom;
+  }
+}
+/* Clase para el elemento socios de los enlaces en las pantallas principales */
+.bienvenida-socios {
+  background: url(assets/img/jugador-azul2.jpg) no-repeat center;
+  background-size: cover;
+  height: 20vh;
+  overflow: hidden;
+  @extend .textos-enlaces-inicio;
+  @extend .centrado;
+  &:hover {
+    @extend .zoom;
+  }
+}
+/* Clase para las formas de contacto posibles */
+.formas-contacto {
+  i {
+    color: $color-blanco;
+    margin-right: 2%;
+  }
+}
+.color-blanco{
+  color: $color-blanco !important;
+}
+
+
+/* <<<<<< ------------------------------------------------------------------------------------------------------------------------------------------------------ >>>>>>> */
+/* CLASES PARA LAS TABLAS DE LA APLICACIÓN */
+/* Se edita el componente table para cambiarle el color de borde, ancho de imágenes y alineado del texto al centro */
+table {
+  text-align: center;
+  border-color: $color-negro !important;
+
+  img {
+    width: 50%;
+  }
+}
+/* Se edita la clase table de bootstrap para cambiarle el color de borde y el color del texto. A los hijos de esta clase también se le cambia el borde */
+.table {
+  border-color: $color-negro !important;
+  th,
+  td,
+  tr,
+  thead,
+  tbody {
+    th {
+      border-color: $color-negro !important;
+    }
+
+    border-color: $color-negro !important;
+  }
+
+  color: $color-blanco !important;
+}
+/* Se editan las clases table-bordered de los elementos td y th de bootstrap para cambiarles el borde. */
+.table-bordered td,
+.table-bordered th {
+  border: 1px solid $color-negro !important;
+}
+/* Clase para aplicar un ancho de columna del 5% */
+.ancho-columna-5 {
+  width: 5%;
+}
+/* Clase para aplicar un ancho de columna del 10% */
+.ancho-columna-10 {
+  width: 10%;
+}
+/* Clase para aplicar un ancho de columna del 20% */
+.ancho-columna-20 {
+  width: 20%;
+}
+/* Clase para aplicar un ancho de columna del 25% */
+.ancho-columna-25 {
+  width: 25%;
+}
+/* Clase para aplicar un ancho de columna del 30% */
+.ancho-columna-30 {
+  width: 30%;
+}
+
+
+/* <<<<<< ------------------------------------------------------------------------------------------------------------------------------------------------------ >>>>>>> */
+/* CLASES PARA ALINEACIONES DE LA APLICACIÓN */
+/* Clase para alinear su contenido en el centro */
+.alineado-centro {
+  text-align: center;
+  margin: 1%;
+  padding: 1%;
+}
+/* Clase para alinear el texto al centro */
+.align-center {
+  text-align: center;
+}
+/* Clase para que el contenido aparezca en línea */
+.inline {
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+/* Se edita la clase box para indicar alineación de texto al centro */
+.box {
+  text-align: center;
+}
+/* Clase para centrar los elementos de otra forma */
+.centrado {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1%;
+}
+
+
+/* <<<<<< ------------------------------------------------------------------------------------------------------------------------------------------------------ >>>>>>> */
+/* CLASES DE MARGIN Y PADDING */
+/* Clase para establecer margin general AL 2% */
+.margin-2 {
+  margin: 2%;
+}
+
+
+/* <<<<<< ------------------------------------------------------------------------------------------------------------------------------------------------------ >>>>>>> */
+/* CLASES PARA EL PIE DE PÁGINA DE LA APLICACIÓN */
+.pie-pagina {
+  width: 100%;
+  background-color: $color-contraste;
+  color: $color-blanco;
+}
+/* Clase para la parte primera del footer */
+.pie-pagina .grupo-1 {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 50px;
+  padding: 45px 0px;
+}
+/* Clase para el elemento figure de la parte primera del footer */
+.pie-pagina .grupo-1 .box figure {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* Clase para el elemento img de figure de la parte primera del footer */
+.pie-pagina .grupo-1 .box figure img {
+  width: 250px;
+}
+/* Clase para el elemento h2 de la parte del footer */
+.pie-pagina .grupo-1 .box h2 {
+  color: #fff;
+  margin-bottom: 25px;
+  font-size: 20px;
+}
+/* Clase para los elementos a del grupo 1 del footer */
+.pie-pagina .grupo-1 .box a {
+  color: #efefef;
+  text-decoration: none;
+  margin-bottom: 10px;
+
+  &:hover {
+    color: $color-amarillo;
+  }
+}
+/* Clase para los elementos a del grupo 1 de la clase red-social del footer */
+.pie-pagina .grupo-1 .red-social a {
+  display: inline-block;
+  text-decoration: none;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  color: $color-texto;
+  margin-right: 10px;
+  background-color: $color-negro;
+  text-align: center;
+  transition: all 300ms ease;
+  border-radius: 50em;
+}
+/* Clase para los elementos a del grupo 1 de la clase red-social del footer en hover*/
+.pie-pagina .grupo-1 .red-social a:hover {
+  color: $color-negro;
+  background-color: $color-amarillo;
+}
+/* Clase para los elementos a del grupo 2 del footer */
+.pie-pagina .grupo-2 {
+  background-color: $color-contraste;
+  padding: 15px 10px;
+  text-align: center;
+  color: #fff;
+}
+/* Clase para el texto de abajo del footer */
+.pie-pagina .grupo-2 small {
+  font-size: 15px;
+}
+/* Clase para dispositivos de máximo 800px. Se cambian estilos para la clase grupo-1 del footer */
+@media screen and (max-width:800px) {
+  .pie-pagina .grupo-1 {
+    width: 90%;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 30px;
+    padding: 35px 0px;
+  }
+}
+
+
+/* <<<<<< ------------------------------------------------------------------------------------------------------------------------------------------------------ >>>>>>> */
+/* CLASES ELEMENTOS DESHABILITADOS */
+/* Se edita la clase ngx-pagination .disabled para indicar el color del texto */
+.ngx-pagination .disabled {
+  color: $color-negro !important;
+}
+/* Se edita la clase form-control:disabled para cambiar color de texto, borde y fondo para que se vean más claros los campos deshabilitados */
+.form-control:disabled {
+  background-color: lightgrey !important;
+  border-color: lightgrey !important;
+  color: $color-negro !important;
+}
+/* Se edita la clase que deshabilita las opciones de un selector para cambiar color de texto, borde y fondo para que se vean más claros los campos deshabilitados */
+select option:checked:disabled {
+  background-color: lightgrey !important;
+  border-color: lightgrey !important;
+  color: $color-negro !important;
+}
+
+/* <<<<<< ------------------------------------------------------------------------------------------------------------------------------------------------------ >>>>>>> */
+/* CLASES PARA ANIMACIONES */
+/* Clase para aplica un zoom al elemento */
+.zoom {
+  transform: scale(1.1);
+  transition: transform 0.25s;
+}
+
+

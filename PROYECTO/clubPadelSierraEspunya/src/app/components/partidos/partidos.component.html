@@ -1,0 +1,422 @@
+<!-- VISTA DE LA PÁGINA PARTIDOS DE LA PÁGINA PRINCIPAL AL HABERSE LOGUEADO -->
+<!-- MENÚ COMÚN DE LA PÁGINA PRINCIPAL CUANDO SE ESTÁ LOGUEADO -->
+<app-menu-inicio-usuario></app-menu-inicio-usuario>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+        <!-- CABECERA DE LA PÁGINA. CONTIENE UN INPUT DE FECHA PARA INDICAR DE QUÉ FECHA SE MUESTRAN LOS PARTIDOS-->
+        <div class="btn-group " role="group">
+                <form [formGroup]="formularioFecha" class="pistaPartido">
+                    <h2 for="">Fecha:</h2>
+                    <input type="date" class="form-control margin-2" formControlName="fecha"
+                        (change)="recargarPartidos()">
+                </form>
+            </div>
+        </div>
+        <!-- CUERPO DE LA PÁGINA -->
+        <div class="card-body">
+            <!-- TÍTULO -->
+            <h1 class="alineado-centro">Partidos</h1>
+            <!-- SE MUESTRA CUANDO sociosDisponibles TIENE VALOR -->
+            <!-- SE REPITE LA MISMA ESTRUCTURA 4 VECES. 1 POR PISTA-->
+            <div *ngIf="sociosDisponibles" class="row" style="text-align: center;">
+                <!-- LAS PISTAS SE VEN DE 1 EN 1 O LAS 4 EN FILA DEPENDIENDO DEL DISPOSITIVO -->
+                <!-- PARA CADA PISTA... -->
+                <div class="col-12 col-md-3 pistaPartido">
+                    <!-- TITULO -->
+                    <h2>Pista 1</h2>
+                    <div class="row">
+                        <!-- ESTRUCTURA QUE SE REPITE EN TODAS LAS HORAS DE LA PISTA. DE LAS 8 A LAS 22 CON 2 HORAS DE DIFERENCIA ENTRE PARTIDOS -->
+                        <div *ngFor="let hora of horasValidasPista1" class="col-12 partido">
+                            <!-- HORA DEL PARTIDO -->
+                            <h3>{{hora}}</h3>
+                            <!-- PARA CADA HORA... -->
+                            <!-- SI YA HAY PARTIDO CREADO -->
+                            <div *ngIf="hayPartidoHora(hora, partidosPista1)" class="row">
+                                <!-- ENCONTRAMOS UNA LISTA CON LOS JUGADORES QUE ACTUALMENTE ESTÁN APUNTADOS AL PARTIDO -->
+                                <h5 class="col-12">Jugadores:</h5>
+                                <div *ngFor="let socio of getSocios(hora, partidosPista1); let iControl=index" class="col-12">
+                                    <h6>{{iControl+1}}.- {{socio}}</h6>
+                                </div>
+                                <!-- ACCIONES -->
+                                <div class="col-12">
+                                    <!-- BOTÓN EDITAR -->
+                                    <button *ngIf="isEditarValid(hora, partidosPista1) && !isAdmin"
+                                        (click)="editarPartido(hora, partidosPista1, 'S')" class="btn btn-info"><span
+                                            class="material-symbols-outlined">
+                                            edit
+                                        </span></button>
+                                    <!-- BOTÓN APUNTARSE AL PARTIDO -->
+                                    <button *ngIf="isJugarValid(hora, partidosPista1) && !isAdmin"
+                                        (click)="editarPartido(hora, partidosPista1, 'N')" class="btn btn-info"><span
+                                            class="material-symbols-outlined">
+                                            group_add
+                                        </span></button>
+                                    <!-- BOTÓN CERRAR PARTIDO -->
+                                    <button *ngIf="isCerrarValid(hora, partidosPista1) && !isAdmin" data-toggle="modal"
+                                        data-target="#cerrarPartido" (click)="cerrarPartido(hora, partidosPista1)"
+                                        class="btn btn-dark"> <span class="material-symbols-outlined">
+                                            lock
+                                        </span></button>
+                                    <!-- BOTÓN BORRAR PARTIDO -->
+                                    <button class="btn btn-danger" *ngIf="isAdmin"
+                                        (click)="borrarRegistro(hora, partidosPista1)"><span
+                                            class="material-symbols-outlined">
+                                            delete
+                                        </span></button>
+                                </div>
+                            </div>
+                            <!-- SI NO HAY PARTIDO CREADO ENCONTRAMOS EL BOTÓN PARA AÑADIR UN PARTIDO EN ESA HORA Y FECHA -->
+                            <div *ngIf="!hayPartidoHora(hora, partidosPista1) && !isAdmin && isCrearValid(hora)"
+                                class="row">
+                                <div class="col-12">
+                                    <button (click)="crearPartido(hora, '1')" class="btn btn-success"><span
+                                            class="material-symbols-outlined">
+                                            add_circle
+                                        </span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 pistaPartido">
+                    <!-- TITULO -->
+                    <h2>Pista 2</h2>
+                    <div class="row">
+                        <!-- ESTRUCTURA QUE SE REPITE EN TODAS LAS HORAS DE LA PISTA. DE LAS 8 A LAS 22 CON 2 HORAS DE DIFERENCIA ENTRE PARTIDOS -->
+                        <div *ngFor="let hora of horasValidasPista2" class="col-12 partido">
+                            <!-- HORA DEL PARTIDO -->
+                            <h3>{{hora}}</h3>
+                            <!-- PARA CADA HORA... -->
+                            <!-- SI YA HAY PARTIDO CREADO -->
+                            <div *ngIf="hayPartidoHora(hora, partidosPista2)" class="row">
+                                <!-- ENCONTRAMOS UNA LISTA CON LOS JUGADORES QUE ACTUALMENTE ESTÁN APUNTADOS AL PARTIDO -->
+                                <h5 class="col-12">Jugadores:</h5>
+                                <div *ngFor="let socio of getSocios(hora, partidosPista2); let iControl=index" class="col-12">
+                                    <h6>{{iControl+1}}.- {{socio}}</h6>
+                                </div>
+                                <!-- ACCIONES -->
+                                <div class="col-12">
+                                    <!-- BOTÓN EDITAR -->
+                                    <button *ngIf="isEditarValid(hora, partidosPista2) && !isAdmin"
+                                        (click)="editarPartido(hora, partidosPista2, 'S')" class="btn btn-info"><span
+                                            class="material-symbols-outlined">
+                                            edit
+                                        </span></button>
+                                    <!-- BOTÓN APUNTARSE AL PARTIDO -->
+                                    <button *ngIf="isJugarValid(hora, partidosPista2) && !isAdmin"
+                                        (click)="editarPartido(hora, partidosPista2,'N')" class="btn btn-info"><span
+                                            class="material-symbols-outlined">
+                                            group_add
+                                        </span></button>
+                                    <!-- BOTÓN CERRAR PARTIDO -->
+                                    <button *ngIf="isCerrarValid(hora, partidosPista2) && !isAdmin" data-toggle="modal"
+                                        data-target="#cerrarPartido" (click)="cerrarPartido(hora, partidosPista2)"
+                                        class="btn btn-dark"> <span class="material-symbols-outlined">
+                                            lock
+                                        </span></button>
+                                    <!-- BOTÓN BORRAR PARTIDO -->
+                                    <button class="btn btn-danger" *ngIf="isAdmin"
+                                        (click)="borrarRegistro(hora, partidosPista2)"><span
+                                            class="material-symbols-outlined">
+                                            delete
+                                        </span></button>
+                                </div>
+                            </div>
+                            <!-- SI NO HAY PARTIDO CREADO ENCONTRAMOS EL BOTÓN PARA AÑADIR UN PARTIDO EN ESA HORA Y FECHA -->
+                            <div *ngIf="!hayPartidoHora(hora, partidosPista2) && !isAdmin && isCrearValid(hora)"
+                                class="row">
+                                <div class="col-12">
+                                    <button (click)="crearPartido(hora, '2')" class="btn btn-success"><span
+                                            class="material-symbols-outlined">
+                                            add_circle
+                                        </span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 pistaPartido">
+                    <!-- TITULO -->
+                    <h2>Pista 3</h2>
+                    <div class="row">
+                        <!-- ESTRUCTURA QUE SE REPITE EN TODAS LAS HORAS DE LA PISTA. DE LAS 8 A LAS 22 CON 2 HORAS DE DIFERENCIA ENTRE PARTIDOS -->
+                        <div *ngFor="let hora of horasValidasPista3" class="col-12 partido">
+                            <!-- HORA DEL PARTIDO -->
+                            <h3>{{hora}}</h3>
+                            <!-- PARA CADA HORA... -->
+                            <!-- SI YA HAY PARTIDO CREADO -->
+                            <div *ngIf="hayPartidoHora(hora, partidosPista3)" class="row">
+                                <!-- ENCONTRAMOS UNA LISTA CON LOS JUGADORES QUE ACTUALMENTE ESTÁN APUNTADOS AL PARTIDO -->
+                                <h5 class="col-12">Jugadores:</h5>
+                                <div *ngFor="let socio of getSocios(hora, partidosPista3); let iControl=index" class="col-12">
+                                    <h6>{{iControl+1}}.- {{socio}}</h6>
+                                </div>
+                                <!-- ACCIONES -->
+                                <div class="col-12">
+                                    <!-- BOTÓN EDITAR -->
+                                    <button *ngIf="isEditarValid(hora, partidosPista3) && !isAdmin"
+                                        (click)="editarPartido(hora, partidosPista3, 'S')" class="btn btn-info"><span
+                                            class="material-symbols-outlined">
+                                            edit
+                                        </span></button>
+                                    <!-- BOTÓN APUNTARSE AL PARTIDO -->
+                                    <button *ngIf="isJugarValid(hora, partidosPista3) && !isAdmin"
+                                        (click)="editarPartido(hora, partidosPista3,'N')" class="btn btn-info"><span
+                                            class="material-symbols-outlined">
+                                            group_add
+                                        </span></button>
+                                    <!-- BOTÓN CERRAR PARTIDO -->
+                                    <button *ngIf="isCerrarValid(hora, partidosPista3) && !isAdmin" data-toggle="modal"
+                                        data-target="#cerrarPartido" (click)="cerrarPartido(hora, partidosPista3)"
+                                        class="btn btn-dark"> <span class="material-symbols-outlined">
+                                            lock
+                                        </span></button>
+                                    <!-- BOTÓN BORRAR PARTIDO -->
+                                    <button class="btn btn-danger" *ngIf="isAdmin"
+                                        (click)="borrarRegistro(hora, partidosPista3)"><span
+                                            class="material-symbols-outlined">
+                                            delete
+                                        </span></button>
+                                </div>
+                            </div>
+                            <!-- SI NO HAY PARTIDO CREADO ENCONTRAMOS EL BOTÓN PARA AÑADIR UN PARTIDO EN ESA HORA Y FECHA -->
+                            <div *ngIf="!hayPartidoHora(hora, partidosPista3) && !isAdmin && isCrearValid(hora)"
+                                class="row">
+                                <div class="col-12">
+                                    <button (click)="crearPartido(hora, '3')" class="btn btn-success"><span
+                                            class="material-symbols-outlined">
+                                            add_circle
+                                        </span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-3 pistaPartido">
+                    <!-- TITULO -->
+                    <h2>Pista 4</h2>
+                    <div class="row">
+                        <!-- ESTRUCTURA QUE SE REPITE EN TODAS LAS HORAS DE LA PISTA. DE LAS 8 A LAS 22 CON 2 HORAS DE DIFERENCIA ENTRE PARTIDOS -->
+                        <div *ngFor="let hora of horasValidasPista4" class="col-12 partido">
+                            <!-- HORA DEL PARTIDO -->
+                            <h3>{{hora}}</h3>
+                            <!-- PARA CADA HORA... -->
+                            <!-- SI YA HAY PARTIDO CREADO -->
+                            <div *ngIf="hayPartidoHora(hora, partidosPista4)" class="row">
+                                <!-- ENCONTRAMOS UNA LISTA CON LOS JUGADORES QUE ACTUALMENTE ESTÁN APUNTADOS AL PARTIDO -->
+                                <h5 class="col-12">Jugadores:</h5>
+                                <div *ngFor="let socio of getSocios(hora, partidosPista4); let iControl=index" class="col-12">
+                                    <h6>{{iControl+1}}.- {{socio}}</h6>
+                                </div>
+                                <!-- ACCIONES -->
+                                <div class="col-12">
+                                    <!-- BOTÓN EDITAR -->
+                                    <button *ngIf="isEditarValid(hora, partidosPista4) && !isAdmin"
+                                        (click)="editarPartido(hora, partidosPista4, 'S')" class="btn btn-info"><span
+                                            class="material-symbols-outlined">
+                                            edit
+                                        </span></button>
+                                    <!-- BOTÓN APUNTARSE AL PARTIDO -->
+                                    <button *ngIf="isJugarValid(hora, partidosPista4) && !isAdmin"
+                                        (click)="editarPartido(hora, partidosPista4,'N')" class="btn btn-info"><span
+                                            class="material-symbols-outlined">
+                                            group_add
+                                        </span></button>
+                                    <!-- BOTÓN CERRAR PARTIDO -->
+                                    <button *ngIf="isCerrarValid(hora, partidosPista4) && !isAdmin" data-toggle="modal"
+                                        data-target="#cerrarPartido" (click)="cerrarPartido(hora, partidosPista4)"
+                                        class="btn btn-dark"> <span class="material-symbols-outlined">
+                                            lock
+                                        </span></button>
+                                    <!-- BOTÓN BORRAR PARTIDO -->
+                                    <button class="btn btn-danger" *ngIf="isAdmin"
+                                        (click)="borrarRegistro(hora, partidosPista4)"><span
+                                            class="material-symbols-outlined">
+                                            delete
+                                        </span></button>
+                                </div>
+                            </div>
+                             <!-- SI NO HAY PARTIDO CREADO ENCONTRAMOS EL BOTÓN PARA AÑADIR UN PARTIDO EN ESA HORA Y FECHA -->
+                            <div *ngIf="!hayPartidoHora(hora, partidosPista4) && !isAdmin && isCrearValid(hora)"
+                                class="row">
+                                <div class="col-12">
+                                    <button (click)="crearPartido(hora, '4')" class="btn btn-success"><span
+                                            class="material-symbols-outlined">
+                                            add_circle
+                                        </span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PIE DE PÁGINA COMÚN -->
+<app-footer></app-footer>
+
+<!-- MODAL PARA CERRAR UN PARTIDO -->
+<div class="modal" id="cerrarPartido">
+    <div *ngIf="partidoCerrar" class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- HEADER DEL MODAL -->
+            <div class="modal-header header-forms">
+                Cerrar partido {{getPartidoTitulo(partidoCerrar)}}
+            </div>
+
+            <!-- CUERPO DEL MODAL -->
+            <!-- ENCONTRAMOS 4 SELECTORES REPARTIDOS 2 ARRIBA Y 2 ABAJO -->
+            <!-- LOS 2 DE ARRIBA SON PARA SELECCIONAR LOS SOCIOS DE LA PAREJA GANADORA Y LOS DE ABAJO LOS SOCIOS DE LA PAREJA PERDEDORA -->
+            <div class="modal-body cuerpo-forms">
+                <div class="row">
+                    <div class="col-12">
+                        <h5 for="sel2">Pareja ganadora:</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="sel2">Socio1 :</label>
+                        <select class="form-control" [(ngModel)]="socio1Cerrar" (change)="comprobarCerrarValido()">
+                            <option *ngFor="let socio of sociosPartidoCerrar" [ngValue]="socio.id">{{
+                                getNombreApellidos(socio) }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="sel2">Socio2 :</label>
+                        <select class="form-control" [(ngModel)]="socio2Cerrar" (change)="comprobarCerrarValido()">
+                            <option *ngFor="let socio of sociosPartidoCerrar" [ngValue]="socio.id">{{
+                                getNombreApellidos(socio) }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h5 for="sel2" style="margin-top: 1em;">Pareja perdedora:</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="sel2">Socio3 :</label>
+                        <select class="form-control" [(ngModel)]="socio3Cerrar" (change)="comprobarCerrarValido()">
+                            <option *ngFor="let socio of sociosPartidoCerrar" [ngValue]="socio.id">{{
+                                getNombreApellidos(socio) }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="sel2">Socio4 :</label>
+                        <select class="form-control" [(ngModel)]="socio4Cerrar" (change)="comprobarCerrarValido()">
+                            <option *ngFor="let socio of sociosPartidoCerrar" [ngValue]="socio.id">{{
+                                getNombreApellidos(socio) }}
+                            </option>
+                        </select>
+                    </div>
+                    <!-- SE MUESTRAN LOS ERRORES SI HUBIERA -->
+                    <div *ngIf="errores.length > 0" class="col-12">
+                        <label *ngFor="let error of errores">
+                            <font color="white">{{error}}</font>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PIE DEL MODAL. TENEMOS EL BOTÓN CERRAR QUE ABRE EL MODAL DE CONFIRMACIÓN Y EL BOTÓN CANCELAR QUE CIERRA EL MODAL -->
+            <div class="modal-footer">
+                <button *ngIf="cerrarValido" type="submit" class="btn botones-texto-comunes" data-toggle="modal"
+                    data-target="#confirmarCerrarPartido">Cerrar</button>
+                <button type="button" class="btn botones-texto-comunes" data-dismiss="modal">Cancelar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- MODAL CONFIRMAR CERRAR UN PARTIDO -->
+<div class="modal" id="confirmarCerrarPartido">
+    <div *ngIf="partidoCerrar" class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- HEADER DEL MODAL -->
+            <div class="modal-header header-forms">
+                ¿Desea cerrar el partido {{getPartidoTitulo(partidoCerrar)}} con este resultado?
+            </div>
+
+            <!-- CUERPO DEL MODAL -->
+            <!-- ENCONTRAMOS 4 SELECTORES REPARTIDOS 2 ARRIBA Y 2 ABAJO -->
+            <!-- LOS 2 DE ARRIBA SON PARA SELECCIONAR LOS SOCIOS DE LA PAREJA GANADORA Y LOS DE ABAJO LOS SOCIOS DE LA PAREJA PERDEDORA -->
+            <!-- ESTOS 4 SELECTORES ESTÁN BLOQUEADOS CON LOS DATOS INTRODUCIDOS EN EL MODAL ANTERIOR PARA CONFIRMAR SI SON ESOS -->
+            <div class="modal-body cuerpo-forms">
+                <div class="row">
+                    <div class="col-12">
+                        <h5 for="sel2">Pareja ganadora:</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="sel2">Socio1 :</label>
+                        <select class="form-control" [(ngModel)]="socio1Cerrar" (change)="comprobarCerrarValido()"
+                            disabled>
+                            <option *ngFor="let socio of sociosPartidoCerrar" [ngValue]="socio.id">{{
+                                getNombreApellidos(socio) }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="sel2">Socio2 :</label>
+                        <select class="form-control" [(ngModel)]="socio2Cerrar" (change)="comprobarCerrarValido()"
+                            disabled>
+                            <option *ngFor="let socio of sociosPartidoCerrar" [ngValue]="socio.id">{{
+                                getNombreApellidos(socio) }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h5 for="sel2" style="margin-top: 1em;">Pareja perdedora:</h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="sel2">Socio3 :</label>
+                        <select class="form-control" [(ngModel)]="socio3Cerrar" (change)="comprobarCerrarValido()"
+                            disabled>
+                            <option *ngFor="let socio of sociosPartidoCerrar" [ngValue]="socio.id">{{
+                                getNombreApellidos(socio) }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="sel2">Socio4 :</label>
+                        <select class="form-control" [(ngModel)]="socio4Cerrar" (change)="comprobarCerrarValido()"
+                            disabled>
+                            <option *ngFor="let socio of sociosPartidoCerrar" [ngValue]="socio.id">{{
+                                getNombreApellidos(socio) }}
+                            </option>
+                        </select>
+                    </div>
+                    <!-- SE MUESTRAN LOS ERRORES SI HUBIERA -->
+                    <div *ngIf="errores.length > 0" class="col-12">
+                        <label *ngFor="let error of errores">
+                            <font color="white">{{error}}</font>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PIE DEL MODAL. TENEMOS EL BOTÓN CERRAR QUE CIERRA EL PARTIDO Y CANCELAR QUE CIERRA EL MODAL -->
+            <div class="modal-footer">
+                <button *ngIf="cerrarValido" type="submit" class="btn botones-texto-comunes"
+                    data-target="#cerrarPartido" data-dismiss="modal"
+                    (click)="confirmarCerrarPartido()">Aceptar</button>
+                <button type="button" class="btn botones-texto-comunes" data-dismiss="modal">Cancelar</button>
+            </div>
+
+        </div>
+    </div>
+</div>

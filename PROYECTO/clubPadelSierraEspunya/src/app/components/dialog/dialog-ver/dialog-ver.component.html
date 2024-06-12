@@ -1,0 +1,22 @@
+<div class="card">
+    <div class="card-body">
+        <h1>Inscritos al torneo {{torneo.nombre}}</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>SOCIO 1</th>
+                    <th>SOCIO 2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pareja of parejas; let iControl=index">
+                    <td>{{ pareja.socio1NombreCompleto }}</td>
+                    <td>{{ pareja.socio2NombreCompleto }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="btn-group" role="group" style="text-align: center;">
+            <button type="button" (click)="cerrar()" class="btn botones-texto-comunes">Volver</button>
+        </div>
+    </div>
+</div>

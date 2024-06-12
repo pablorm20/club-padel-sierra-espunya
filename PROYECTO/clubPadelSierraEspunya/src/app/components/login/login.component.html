@@ -1,0 +1,38 @@
+<!-- VISTA DE LA PÁGINA LOGIN PARA ACCEDER A LA PARTE DE SOCIOS -->
+<!-- MENÚ COMÚN DE LA PÁGINA PRINCIPAL SIN HACER LOGIN -->
+<app-menu-inicio></app-menu-inicio>
+<div class="container">
+    <div class="card">
+        <!-- TÍTULO DE LA PÁGINA -->
+        <div class="card-header header-forms">
+            Login
+        </div>
+        <!-- FORMULARIO PARA LOGUEARSE CON LOS CAMPOS USUARIO Y CONTRASEÑA -->
+        <div class="card-body cuerpo-forms">
+            <form ngNativeValidate [formGroup]="formularioLogin" (ngSubmit)="enviarDatos()">
+    
+                <div class="form-group">
+                  <label for="">Usuario:</label>
+                  <input required type="text"
+                    class="form-control" formControlName="usuario" placeholder="Escriba su usuario">
+                    <label *ngIf="noValidUsuario"><font color="white">El usuario no es válido</font></label>
+                </div>
+    
+                <div class="form-group">
+                  <label for="">Contraseña:</label>
+                  <input required type="password"
+                    class="form-control" formControlName="password" placeholder="Escriba su contraseña">
+                    <label *ngIf="noValidContrasenya"><font color="white">Contraseña incorrecta</font></label>
+                </div>
+                <!-- BOTONES PARA ACCEDER O CANCELAR -->
+                <div class="btn-group">
+                    <button type="submit" class="btn botones-texto-comunes">Acceder</button>
+                    <button type="button" routerLink="" class="btn botones-texto-comunes">Cancelar</button>
+                </div>
+    
+            </form>
+        </div>
+    </div>
+</div>
+<!-- PIE DE PÁGINA COMÚN -->
+<app-footer></app-footer>

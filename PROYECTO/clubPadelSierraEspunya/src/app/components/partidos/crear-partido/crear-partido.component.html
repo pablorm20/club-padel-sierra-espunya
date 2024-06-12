@@ -1,0 +1,91 @@
+<!-- VISTA DE LA PÁGINA CREAR PARTIDO DE LA PÁGINA PRINCIPAL AL HABERSE LOGUEADO -->
+<!-- MENÚ COMÚN DE LA PÁGINA PRINCIPAL CUANDO SE ESTÁ LOGUEADO -->
+<app-menu-inicio-usuario></app-menu-inicio-usuario>
+<div class="container">
+    <div class="card">
+        <!-- TÍTULO DE LA PÁGINA -->
+        <div class="card-header header-forms">
+            Crear Partido
+        </div>
+        <!-- FORMULARIO PARA DAR DE ALTA UN NUEVO PREMIO. ENCONTRAMOS LOS DIFERENTES CAMPOS QUE SE PUEDEN RELLENAR -->
+        <div class="card-body cuerpo-forms">
+            <form ngNativeValidate [formGroup]="formularioNuevoPartido" (ngSubmit)="enviarDatos()">
+                <!-- SOCIOS 2 Y 3 -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="">Socio 2:</label>
+                            <select class="form-control" formControlName="socio2">
+                                <option *ngFor="let socio of sociosDisponibles" value="{{socio.id}}">{{ getSocio(socio)
+                                    }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label for="">Socio 3:</label>
+                            <select class="form-control" formControlName="socio3">
+                                <option *ngFor="let socio of sociosDisponibles" value="{{socio.id}}">{{ getSocio(socio)
+                                    }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- SOCIO 4 Y PISTA -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="">Socio 4:</label>
+                            <select class="form-control" formControlName="socio4">
+                                <option *ngFor="let socio of sociosDisponibles" value="{{socio.id}}">{{ getSocio(socio)
+                                    }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label for="">Pista:</label>
+                            <select class="form-control" formControlName="pista">
+                                <option></option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- FECHA Y HORA -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-6">
+                            <label for="">Fecha:</label>
+                            <input required type="date" class="form-control" formControlName="fecha">
+                        </div>
+                        <div class="col-6">
+                            <label for="">Hora:</label>
+                            <select class="form-control" formControlName="hora">
+                                <option *ngFor="let hora of horas" value="{{hora}}">{{hora}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- COMPONENTE QUE NOS MUESTRA SI SE HAN INTRODUCIDO SOCIOS REPETIDOS -->
+                <div class="form-group">
+                    <label *ngIf="comprobarSociosRepetidos()">
+                        <font color="white">Hay socios repetidos en el partido</font>
+                    </label>
+                </div>
+                <!-- BOTONERA DE ACCIONES. CREAR QUE CREA EL PARTIDO Y CANCELAR QUE NO HACE NADA. AMBOS NOS LLEVAN A LA PÁGINA PRINCIPAL DE PARTIDOS -->
+                <div class="btn-group" role="group">
+                    <button *ngIf="this.formularioNuevoPartido.valid && !comprobarSociosRepetidos()" type="submit"
+                        class="btn botones-texto-comunes">Crear</button>
+                    <button type="button" routerLink="/inicio/partidos" class="btn botones-texto-comunes">Cancelar</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<!-- PIE DE PÁGINA COMÚN -->
+<app-footer></app-footer>

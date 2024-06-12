@@ -1,0 +1,22 @@
+<div class="card">
+    <div class="card-body">
+        <h1>Seleccionar pareja</h1>
+        <form>
+            <div class="row">
+                <div class="col-9">
+                    <input type="text" placeholder="Seleccione pareja" matInput [formControl]="myControl"
+                        [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                            {{option}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+            </div>
+        </form>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn botones-texto-comunes" (click)="apuntarse()">Apuntarme</button>
+            <button type="button" (click)="cerrar()" class="btn botones-texto-comunes">Cancelar</button>
+        </div>
+    </div>
+</div>

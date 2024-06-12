@@ -1,0 +1,324 @@
+<!-- VISTA DE LA PÁGINA TORNEOS DE LA PÁGINA PRINCIPAL AL HABERSE LOGUEADO -->
+<!-- MENÚ COMÚN DE LA PÁGINA PRINCIPAL CUANDO SE ESTÁ LOGUEADO-->
+<app-menu-inicio-usuario></app-menu-inicio-usuario>
+<!-- EL COMPONENTE PRINCIPAL SERÁ VISIBLE CUANDO SE HAYA RECOGIDO EL USUARIO LOGUEADO -->
+<div *ngIf="this.usuarioLogin" class="container">
+    <div class="card">
+        <!-- CABECERA DE LA PÁGINA. VISIBLE SI ES ADMIN. ENCONTRAMOS EL BOTÓN PARA CREAR UN NUEVO TORNEO. NOS LLEVA A LA PANTALLA PARA CREAR UN NUEVO TORNEO -->
+        <div *ngIf="isAdmin" class="card-header">
+            <button class="btn botones-texto-comunes" routerLink="/crear-torneo">Agregar nuevo torneo</button>
+        </div>
+        <!-- CUERPO DE LA PÁGINA -->
+        <div class="card-body">
+            <!-- TÍTULO -->
+            <h1 class="alineado-centro">Lista de torneos</h1>
+            <!-- TABLA CON LOS TORNEOS QUE HAY ACTUALMENTE -->
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <!-- CABECERAS DE LA TABLA -->
+                    <thead>
+                        <tr>
+                            <th>NOMBRE</th>
+                            <th>MODALIDAD</th>
+                            <th>FECHA</th>
+                            <th>PAREJAS</th>
+                            <th>ABIERTO</th>
+                            <th>FINALIZADO</th>
+                            <th>ACCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- FILAS DE LA TABLA. POR CADA TORNEO ENCONTRAMOS UNA FILA -->
+                        <tr
+                            *ngFor="let torneo of torneos | paginate: { itemsPerPage: 5, currentPage: page }; let iControl=index">
+                            <td>{{ torneo.nombre }}</td>
+                            <td>{{ getModalidad(torneo.genero) }}</td>
+                            <td>{{ torneo.fecha }}</td>
+                            <td>{{ torneo.parejas_apuntadas }}</td>
+                            <td>{{ getSiNo(torneo.inscripcion_abierta) }}</td>
+                            <td>{{ getSiNo(torneo.finalizado) }}</td>
+                            <!-- ACCIONES SOBRE LOS TORNEOS -->
+                            <!-- SI ES ADMIN SE PUEDE EDITAR, VER LOS INSCRITOS CERRAR Y BORRAR EL TORNEO -->
+                            <td *ngIf="isAdmin">
+                                <button class="btn btn-info" routerLink="/ver-editar-torneo/{{ torneo.id }}"><span
+                                        class="material-symbols-outlined">
+                                        {{getEditView(torneo)}}
+                                    </span></button>
+                                <font *ngIf="torneo.parejas && torneo.parejas.length > 0"> | </font>
+                                <button *ngIf="torneo.parejas && torneo.parejas.length > 0" class="btn btn-info-2"
+                                    (click)="verInscritos(torneo)" data-toggle="modal" data-target="#verInscritos"><span
+                                        class="material-symbols-outlined">
+                                        list
+                                    </span></button>
+                                <font
+                                    *ngIf="torneo.max_parejas === torneo.parejas_apuntadas && torneo.finalizado === 'N'">
+                                    | </font>
+                                <button
+                                    *ngIf="torneo.max_parejas === torneo.parejas_apuntadas && torneo.finalizado === 'N'"
+                                    type="button" class="btn btn-dark" data-toggle="modal" data-target="#cerrarTorneo"
+                                    (click)="cerrarTorneo(torneo)">
+                                    <span class="material-symbols-outlined">
+                                        lock
+                                    </span>
+                                </button>
+                                |
+                                <button class="btn btn-danger" (click)="borrarRegistro(torneo.id,iControl)"
+                                    role="button"><span class="material-symbols-outlined">
+                                        delete
+                                    </span></button>
+                            </td>
+                            <!-- SI NO ES ADMIN SE PUEDE APUNTARSE Y VER INSCRITOS -->
+                            <td *ngIf="!isAdmin">
+                                <button *ngIf="apuntarseValid(torneo) && !isApuntado(torneo)" class="btn btn-success"
+                                    data-toggle="modal" data-target="#apuntarse" (click)="abrirApuntarse(torneo)"><span
+                                        class="material-symbols-outlined">
+                                        group_add
+                                    </span></button>
+                                <button *ngIf="isApuntado(torneo)" disabled class="btn btn-success"><span
+                                        class="material-symbols-outlined">
+                                        <span class="material-symbols-outlined">
+                                            check_circle
+                                        </span>
+                                    </span></button>
+                                <font *ngIf="torneo.parejas && torneo.parejas.length > 0"> | </font>
+                                <button *ngIf="torneo.parejas && torneo.parejas.length > 0" class="btn btn-info-2"
+                                    (click)="verInscritos(torneo)" data-toggle="modal" data-target="#verInscritos"><span
+                                        class="material-symbols-outlined">
+                                        list
+                                    </span></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- PAGINACIÓN DE LA TABLA -->
+                <pagination-controls (pageChange)="page = $event" previousLabel="Anterior"
+                    nextLabel="Siguiente"></pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PIE DE PÁGINA COMÚN -->
+<app-footer></app-footer>
+
+<!-- MODAL PARA APUNTARSE AL TORNEO -->
+<div class="modal" id="apuntarse">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- HEADER DEL MODAL -->
+            <div class="modal-header header-forms">
+                Seleccionar pareja
+            </div>
+
+            <!-- CUERPO DEL MODAL -->
+            <!-- ENCONTRAMOS UN SELECTOR DONDE ELEGIR LA PAREJA CON LA QUE SE QUIERE APUNTAR -->
+            <div class="modal-body cuerpo-forms">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-9">
+                            <select class="form-control" [(ngModel)]="socioSeleccionado">
+                                <option *ngFor="let socio of nombresSociosApuntarse" [ngValue]="socio">{{socio}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PIE DEL MODAL. TENEMOS EL BOTÓN CERRAR QUE CIERRA EL MODAL Y EL BOTÓN APUNTARME QUE AÑADE LA NUEVA PAREJA AL TORNEO -->
+            <div class="modal-footer">
+                <button *ngIf="this.nombresSociosApuntarse.length > 0 && this.socioSeleccionado != ''" type="submit"
+                    class="btn botones-texto-comunes" (click)="apuntarse()" data-dismiss="modal">Apuntarme</button>
+                <button type="button" class="btn botones-texto-comunes" data-dismiss="modal">Cancelar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PARA VER LOS SOCIOS INSCRITOS -->
+<div class="modal" id="verInscritos">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- CABECERA DEL MODAL -->
+            <div class="modal-header header-forms">
+                Inscritos al torneo {{torneoActual.nombre}}
+            </div>
+
+            <!-- CUERPO DEL MODAL -->
+            <!-- CONTIENE UNA TABLA CON LA LISTA DE PAREJAS APUNTADAS AL TORNEO -->
+            <div class="modal-body cuerpo-forms">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <!-- TABLA CON LAS PAREJAS -->
+                            <table class="table table-striped table-bordered">
+                                 <!-- CABECERAS -->
+                                <thead>
+                                    <tr>
+                                        <th>SOCIO 1</th>
+                                        <th>SOCIO 2</th>
+                                    </tr>
+                                </thead>
+                                 <!-- CUERPO CON LOS NOMBRES DE LOS 2 SOCIOS DE LA PAREJA -->
+                                <tbody>
+                                    <tr *ngFor="let pareja of parejasInscritas; let iControl=index">
+                                        <td>{{ pareja.socio1NombreCompleto }}</td>
+                                        <td>{{ pareja.socio2NombreCompleto }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PIE DEL MODAL -->
+            <!-- CONTIENE UN BOTÓN QUE CIERRA EL MENÚ -->
+            <div class="modal-footer">
+                <button type="button" class="btn botones-texto-comunes" data-dismiss="modal">Cerrar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PARA CERRAR UN TORNEO -->
+<div class="modal" id="cerrarTorneo">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- CABECERA DEL MODAL -->
+            <div class="modal-header header-forms">
+                Cerrar torneo {{torneoActual.nombre}}
+            </div>
+
+            <!-- CUERPO DEL MODAL -->
+            <!-- CONTIENE UN SELECTOR PARA SELECCIONAR CADA UNA DE LOS RESULTADOS DEL TORNEO, DESDE CAMPEÓN A OCTAVOS. EN CADA SELECTOR SE TIENEN QUE SELECCIONAR LAS PAREJAS CORRESPONDIENTES A ESE PUESTO -->
+            <div class="modal-body cuerpo-forms">
+                <div class="row">
+                    <div class="col-6">
+                        <label for="sel2">Selecciona pareja Campeona:</label>
+                        <select class="form-control" [(ngModel)]="parejaCampeona" (change)="comprobarCerrarValido()">
+                            <option *ngFor="let pareja of parejasInscritas" [ngValue]="pareja">{{ getPareja(pareja) }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="sel2">Selecciona pareja Subcampeona:</label>
+                        <select class="form-control" [(ngModel)]="parejaSubcampeona" (change)="comprobarCerrarValido()">
+                            <option *ngFor="let pareja of parejasInscritas" [ngValue]="pareja">{{ getPareja(pareja) }}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="parejasInscritas.length > 2" class="col-12">
+                        <label for="sel2" style="margin-top: 1em;">Selecciona parejas semifinal:</label>
+                        <select multiple class="form-control" [(ngModel)]="parejasSemifinal"
+                            (change)="comprobarCerrarValido()">
+                            <option *ngFor="let pareja of parejasInscritas" [ngValue]="pareja">{{ getPareja(pareja) }}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="parejasInscritas.length > 4" class="col-12">
+                        <label for="sel2" style="margin-top: 1em;">Selecciona parejas cuartos:</label>
+                        <select multiple class="form-control" [(ngModel)]="parejasCuartos"
+                            (change)="comprobarCerrarValido()">
+                            <option *ngFor="let pareja of parejasInscritas" [ngValue]="pareja">{{ getPareja(pareja) }}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="parejasInscritas.length > 8" class="col-12">
+                        <label for="sel2" style="margin-top: 1em;">Selecciona parejas octavos:</label>
+                        <select multiple class="form-control" [(ngModel)]="parejasOctavos"
+                            (change)="comprobarCerrarValido()">
+                            <option *ngFor="let pareja of parejasInscritas" [ngValue]="pareja">{{ getPareja(pareja) }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- DIV PARA MOSTRAR LOS POSIBLES ERRORES AL CERRAR EL TORNEO -->
+                    <div *ngIf="errores.length > 0" class="col-12">
+                        <label *ngFor="let error of errores">
+                            <font color="white">{{error}}</font>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PIE DEL MODAL -->
+            <!-- CONTIENE UN BOTÓN PARA CANCELAR Y OTRO PARA CERRAR EL TORNEO -->
+            <div class="modal-footer">
+                <button *ngIf="cerrarValido" type="submit" class="btn botones-texto-comunes" data-toggle="modal"
+                    data-target="#confirmarCerrarTorneo">Cerrar</button>
+                <button type="button" class="btn botones-texto-comunes" data-dismiss="modal">Cancelar</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PARA CONFIRMAR CERRAR UN TORNEO -->
+<!-- APARECE CUANDO QUEREMOS CERRAR EL TORNEO Y HEMOS SELECCIONADO LAS PAREJAS YA EN EL MODAL ANTERIOR. NOS APARECEN LAS PAREJAS SELECCIONADAS ANTERIORMENTE PARA CONFIRMAR O NO -->
+<div class="modal" id="confirmarCerrarTorneo">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+            <!-- CABECERA DEL MODAL -->
+            <div class="modal-header header-forms">
+                ¿Quiere cerrar torneo {{torneoActual.nombre}} con estos resultados?
+            </div>
+
+            <!-- CUERPO DEL MODAL -->
+            <!-- CONTIENE UN SELECTOR PARA SELECCIONAR CADA UNA DE LOS RESULTADOS DEL TORNEO, DESDE CAMPEÓN A OCTAVOS. EN CADA SELECTOR APARECE LA PAREJA SELECCIONADA EN EL MODAL ANTERIOR Y BLOQUEADA -->
+            <div class="modal-body cuerpo-forms">
+                <div class="row">
+                    <div class="col-6">
+                        <label for="sel2">Selecciona pareja Campeona:</label>
+                        <select class="form-control" [(ngModel)]="parejaCampeona" disabled>
+                            <option *ngFor="let pareja of parejasInscritas" [ngValue]="pareja">{{ getPareja(pareja) }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="sel2">Selecciona pareja Subcampeona:</label>
+                        <select class="form-control" [(ngModel)]="parejaSubcampeona" disabled>
+                            <option *ngFor="let pareja of parejasInscritas" [ngValue]="pareja">{{ getPareja(pareja) }}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="parejasInscritas.length > 2" class="col-12">
+                        <label for="sel2" style="margin-top: 1em;">Selecciona parejas semifinal:</label>
+                        <select multiple class="form-control" [(ngModel)]="parejasSemifinal" disabled>
+                            <option *ngFor="let pareja of parejasSemifinal" [ngValue]="pareja">{{ getPareja(pareja) }}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="parejasInscritas.length > 4" class="col-12">
+                        <label for="sel2" style="margin-top: 1em;">Selecciona parejas cuartos:</label>
+                        <select multiple class="form-control" [(ngModel)]="parejasCuartos" disabled>
+                            <option *ngFor="let pareja of parejasCuartos" [ngValue]="pareja">{{ getPareja(pareja) }}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="parejasInscritas.length > 8" class="col-12">
+                        <label for="sel2" style="margin-top: 1em;">Selecciona parejas octavos:</label>
+                        <select multiple class="form-control" [(ngModel)]="parejasOctavos" disabled>
+                            <option *ngFor="let pareja of parejasOctavos" [ngValue]="pareja">{{ getPareja(pareja) }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PIE DEL MODAL -->
+            <!-- CONTIENE EL BOTÓN CANCELAR QUE CANCELA TODO Y EL ACEPTAR QUE CIERRA EL TORNEO Y LOS DOS MODALES -->
+            <div class="modal-footer">
+                <button type="submit" class="btn botones-texto-comunes" data-dismiss="modal" data-target="#cerrarTorneo"
+                    (click)="cerrar()">Aceptar</button>
+                <button type="button" class="btn botones-texto-comunes" data-dismiss="modal">Cancelar</button>
+            </div>
+
+        </div>
+    </div>
+</div>

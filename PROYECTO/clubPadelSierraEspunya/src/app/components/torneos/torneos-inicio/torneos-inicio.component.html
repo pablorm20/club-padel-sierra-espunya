@@ -1,0 +1,41 @@
+<!-- VISTA DE LA PÁGINA TORNEOS DE LA PÁGINA PRINCIPAL SIN HABERSE LOGUEADO -->
+<!-- MENÚ COMÚN DE LA PÁGINA PRINCIPAL SIN HACER LOGIN -->
+<app-menu-inicio></app-menu-inicio>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">
+                    <!-- TÍTULO DE LA PÁGINA -->
+                    <div class="text-center mb-5 parallax-contacto">
+                        <h1>Torneos</h1>
+                        <p class="lead">Descubre los torneos disputados en el club</p>
+                    </div>
+                    <!-- CONTENEDOR QUE TIENE TODOS LOS TORNEOS A MOSTRAR. SE MUESTRAN DE 1 EN 1, DE 2 EN 2 O DE 3 EN 3 SEGÚN DEL DISPOSITIVO.
+                    PARA CADA TORNEO SE MUESTRA FOTO NOMBRE, FECHA MODALIDAD Y PUNTOS DE CAMPEÓN Y SUBCAMPEÓN.
+                    TAMBIÉN UN BOTÓN QUE NOS LLEVARÁ AL LOGIN Y DESPÚES A LA PARTE DE TORNEOS DE LOS SOCIOS-->
+                    <div class="row">
+                        <div *ngFor="let torneo of torneos" class="col-md-6 col-lg-4 pb-4">
+                            <div class="card h-100">
+                                <div class="card-body alineado-centro">
+                                    <img class="card-text" [src]="getImagen(torneo)" style="width: 15em; margin-bottom: 3%;">
+                                    <h5 class="card-title">Torneo: {{torneo.nombre}}</h5>
+                                    <p class="card-text">Fecha: {{torneo.fecha}}</p>
+                                    <p class="card-text">Modalidad: {{getModalidad(torneo.genero)}}</p>
+                                    <p class="card-text">Puntos Campeón: {{torneo.puntos_campeon}}</p>
+                                    <p class="card-text">Puntos Subcampeón: {{torneo.puntos_subcampeon}}</p>
+                                    <div class="col-12 alineado-centro">
+                                        <button class="btn botones-texto-comunes"
+                                            routerLink="/login/torneos">Información</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PIE DE PÁGINA COMÚN -->
+<app-footer></app-footer>

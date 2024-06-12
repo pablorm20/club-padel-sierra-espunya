@@ -1,0 +1,37 @@
+<!-- VISTA DE LA PÁGINA INICIO DE LA PÁGINA PRINCIPAL SIN HABERSE LOGUEADO -->
+<!-- MENÚ COMÚN DE LA PÁGINA PRINCIPAL SIN HACER LOGIN -->
+<app-menu-inicio></app-menu-inicio>
+<div class="container">
+  <div class="card">
+    <div class="card-body">
+      <div class="row">
+        <!-- TEXTO DE INICIO CON IMAGEN DE FONDO -->
+        <div class="col-12 parallax-inicio">
+          <h1 class="alineado-centro">BIENVENIDO/A AL</h1>
+          <h1 class="alineado-centro">CLUB DE PADEL SIERRA ESPUÑA</h1>
+        </div>
+        <!-- LISTA DE ENLACES CON LAS MISMAS OPCIONES QUE TIENE EL MENÚ DE NAVEGACIÓN. CADA ENLACE TIENE UNA IMAGEN DE FONDO Y UN TEXTO -->
+        <div class="row secciones-inicio">
+          <!-- ENLACE A LA PANTALLA EL CLUB -->
+          <a class="col-12 bienvenida-club" routerLink="/club">
+            <h1 class="alineado-centro">EL CLUB</h1>
+          </a>
+          <!-- ENLACE A LA PANTALLA INSTALACIONES -->
+          <a class="col-12 bienvenida-instalaciones" routerLink="/instalaciones">
+            <h1 class="alineado-centro">INSTALACIONES</h1>
+          </a>
+          <!-- ENLACE A LA PANTALLA TORNEOS -->
+          <a class="col-12 bienvenida-torneos" routerLink="/torneos">
+            <h1 class="alineado-centro">TORNEOS</h1>
+          </a>
+          <!-- ENLACE A LA PANTALLA CONTACTO -->
+          <a class="col-12 bienvenida-contacto" routerLink="/contacto">
+            <h1 class="alineado-centro">CONTACTO</h1>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- PIE DE PÁGINA COMÚN -->
+<app-footer></app-footer>

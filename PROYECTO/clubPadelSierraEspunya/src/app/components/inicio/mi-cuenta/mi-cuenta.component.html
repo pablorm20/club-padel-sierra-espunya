@@ -1,0 +1,40 @@
+<!-- VISTA DE LA PÁGINA INICIO DE LA PÁGINA PRINCIPAL CON USUARIO LOGUEADO -->
+<!-- MENÚ COMÚN DE LA PÁGINA PRINCIPAL CON USUARIO LOGUEADO -->
+<app-menu-inicio-usuario></app-menu-inicio-usuario>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <!-- TEXTO DE BIENVENIDA CON EL NOMBRE DEL USUARIO CONECTADO. TIENE UNA IMAGEN DE FONDO -->
+                <div class="col-12 parallax">
+                    <h1 class="alineado-centro">Bienvenido/a, {{usuario.nombre}}</h1>
+                </div>
+                <!-- LISTA DE ENLACES CON LAS MISMAS OPCIONES QUE TIENE EL MENÚ DE NAVEGACIÓN. CADA ENLACE TIENE UNA IMAGEN DE FONDO Y UN TEXTO -->
+                <div class="row secciones-inicio">
+                    <!-- ENLACE A LA PANTALLA SOCIOS. VISIBLE SI EL USUARIO ES ADMIN -->
+                    <a *ngIf="isAdmin" class="col-12 bienvenida-club" routerLink="/inicio/socios">
+                        <h1 class="alineado-centro">SOCIOS</h1>
+                    </a>
+                    <!-- ENLACE A LA PANTALLA MI PERFIL. VISIBLE SI EL USUARIO NO ES ADMIN -->
+                    <a *ngIf="!isAdmin" class="col-12 bienvenida-club" routerLink="/inicio/mi-perfil">
+                        <h1 class="alineado-centro">MI PERFIL</h1>
+                    </a>
+                    <!-- ENLACE A LA PANTALLA PARTIDOS -->
+                    <a class="col-12 bienvenida-partidos" routerLink="/inicio/partidos">
+                        <h1 class="alineado-centro">PARTIDOS</h1>
+                    </a>
+                    <!-- ENLACE A LA PANTALLA TORNEOS -->
+                    <a class="col-12 bienvenida-torneos" routerLink="/inicio/torneos">
+                        <h1 class="alineado-centro">TORNEOS</h1>
+                    </a>
+                    <!-- ENLACE A LA PANTALLA PREMIOS -->
+                    <a class="col-12 bienvenida-premios" routerLink="/inicio/premios">
+                        <h1 class="alineado-centro">PREMIOS</h1>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PIE DE PÁGINA COMÚN -->
+<app-footer></app-footer>

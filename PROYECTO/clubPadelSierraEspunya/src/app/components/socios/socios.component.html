@@ -1,0 +1,61 @@
+<!-- VISTA DE LA PÁGINA SOCIOS DE LA PÁGINA PRINCIPAL AL HABERSE LOGUEADO -->
+<!-- MENÚ COMÚN DE LA PÁGINA PRINCIPAL CUANDO SE ESTÁ LOGUEADO-->
+<app-menu-inicio-usuario></app-menu-inicio-usuario>
+<!-- ESTE COMPONENTE SOLO SERÁ VISIBLE SI ES ADMIN EL USUARIO LOGUEADO -->
+<div class="container">
+    <div class="card">
+        <!-- CABECERA DE LA PÁGINA. ENCONTRAMOS EL BOTÓN PARA CREAR UN NUEVO SOCIO. NOS LLEVA A LA PANTALLA PARA CREAR UN NUEVO SOCIO -->
+        <div class="card-header header-forms">
+            <button class="btn botones-texto-comunes" routerLink="/crear-socio">Agregar nuevo socio</button>
+        </div>
+        <!-- CUERPO DE LA PÁGINA -->
+        <div class="card-body cuerpo-forms">
+            <!-- TÍTULO -->
+            <h1 class="alineado-centro">Lista de socios</h1>
+            <!-- TABLA CON LOS SOCIOS QUE HAY ACTUALMENTE -->
+            <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <!-- CABECERAS DE LA TABLA -->
+                <thead>
+                    <tr>
+                        <th>NOMBRE</th>
+                        <th>APELLIDOS</th>
+                        <th>DNI</th>
+                        <th>TELEFONO</th>
+                        <th style="width: 25%;">IMAGEN</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- FILAS DE LA TABLA. POR CADA SOCIO ENCONTRAMOS UNA FILA -->
+                    <tr
+                        *ngFor="let socio of socios | paginate: { itemsPerPage: 5, currentPage: page }; let iControl=index">
+                        <td>{{ socio.nombre }}</td>
+                        <td>{{ socio.apellidos }}</td>
+                        <td>{{ socio.dni }}</td>
+                        <td>{{ socio.telefono }}</td>
+                        <td><img [src]="getImagen(socio)" style="width: 40%;"/></td>
+                         <!-- ACCIONES SOBRE LOS SOCIOS -->
+                        <!-- ENCONTRAMOS EDITAR Y BORRAR -->
+                        <td>
+                            <button class="btn btn-info" routerLink="/ver-editar-socio/{{ socio.id }}"><span
+                                class="material-symbols-outlined">
+                                edit
+                            </span></button> |
+                            <button class="btn btn-danger" (click)="borrarRegistro(socio.id,iControl)"
+                                role="button"><span class="material-symbols-outlined">
+                                    delete
+                                </span></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- PAGINACIÓN DE LA TABLA -->
+            <pagination-controls (pageChange)="page = $event" previousLabel="Anterior"
+                nextLabel="Siguiente"></pagination-controls>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- PIE DE PÁGINA COMÚN -->
+<app-footer></app-footer>

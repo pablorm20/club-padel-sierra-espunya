@@ -1,0 +1,30 @@
+<!-- MENÚ COMÚN PARA TODAS LAS PANTALLAS CUANDO NO HAY UN USUARIO LOGUEADO -->
+<!-- CONSTA DE UNA LISTA HORIZONTAL DE OPCIONES -->
+<nav class="navbar navbar-expand justify-content-center sticky-top">
+    <ul class="nav navbar-nav justify-content-center">
+      <!-- PÁGINA DE INICIO -->
+      <li class="nav-item active">
+        <a class="nav-link" routerLink="">Inicio</a>
+      </li>
+      <!-- PÁGINA DE EL CLUB -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/club">El Club</a>
+      </li>
+      <!-- PÁGINA DE INSTALACIONES -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/instalaciones">Instalaciones</a>
+      </li>
+      <!-- PÁGINA DE TORNEOS -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/torneos">Torneos</a>
+      </li>
+      <!-- PÁGINA DE CONTACTO -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/contacto">Contacto</a>
+      </li>
+      <!-- BOTÓN QUE NOS LLEVA A LA PANTALLA LOGIN PARA ACCEDER A LA PARTE DE SOCIOS -->
+      <li>
+        <button class="btn botones-texto-comunes" routerLink="/login">Acceder</button>
+      </li>
+    </ul>
+  </nav>

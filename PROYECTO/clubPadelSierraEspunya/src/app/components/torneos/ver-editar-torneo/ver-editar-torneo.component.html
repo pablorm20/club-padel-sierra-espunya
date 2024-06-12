@@ -1,0 +1,118 @@
+<!-- VISTA DE LA PÁGINA VER/EDITAR TORNEO DE LA PÁGINA PRINCIPAL AL HABERSE LOGUEADO -->
+<!-- MENÚ COMÚN DE LA PÁGINA PRINCIPAL CUANDO SE ESTÁ LOGUEADO-->
+<app-menu-inicio-usuario></app-menu-inicio-usuario>
+<div class="container">
+  <div class="card">
+    <!-- TÍTULO DE LA PÁGINA -->
+    <div class="card-header header-forms">
+      Editar Torneo
+    </div>
+    <!-- FORMULARIO PARA DAR EDITAR TORNEO. ENCONTRAMOS LOS DIFERENTES CAMPOS QUE SE PUEDEN RELLENAR -->
+    <div class="card-body cuerpo-forms">
+      <form ngNativeValidate [formGroup]="formularioTorneo" (ngSubmit)="enviarDatos()">
+
+        <!-- NOMBRE -->
+        <div class="form-group">
+          <label for="">Nombre:</label>
+          <input required type="text" class="form-control" formControlName="nombre" placeholder="Escribe su nombre">
+        </div>
+        <!-- MAX. PAREJAS Y FECHA -->
+        <div class="form-group">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <label for="">Max parejas:</label>
+              <input required type="number" class="form-control" formControlName="max_parejas"
+                placeholder="Escribe max de parejas">
+            </div>
+            <div class="col-12 col-md-6">
+              <label for="">Fecha:</label>
+              <input required type="date" class="form-control" formControlName="fecha"
+                placeholder="Escribe fecha del torneo">
+            </div>
+          </div>
+        </div>
+        <!-- PUNTOS CAMPEÓN Y SUBCAMPEÓN -->
+        <div class="form-group">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <label for="">Puntos campeón:</label>
+              <input required type="number" class="form-control" formControlName="puntos_campeon"
+                placeholder="Escribe puntos campeón">
+            </div>
+            <div class="col-12 col-md-6">
+              <label for="">Puntos subcampeón:</label>
+              <input required type="number" class="form-control" formControlName="puntos_subcampeon"
+                placeholder="Escribe puntos subcampeón">
+            </div>
+          </div>
+        </div>
+        <!-- PUNTOS SEMIFINAL Y CUARTOS -->
+        <div class="form-group">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <label for="">Puntos semifinal:</label>
+              <input required type="number" class="form-control" formControlName="puntos_semifinal"
+                placeholder="Escribe puntos semifinal">
+            </div>
+            <div class="col-12 col-md-6">
+              <label for="">Puntos cuartos:</label>
+              <input required type="number" class="form-control" formControlName="puntos_cuartos"
+                placeholder="Escribe puntos cuartos">
+            </div>
+          </div>
+        </div>
+        <!-- PUNTOS OCTAVOS Y MODALIDAD -->
+        <div class="form-group">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <label for="">Puntos octavos:</label>
+              <input required type="number" class="form-control" formControlName="puntos_octavos"
+                placeholder="Escribe puntos octavos">
+            </div>
+            <div class="col-12 col-md-6">
+              <label>Modalidad:</label>
+              <select class="form-control" formControlName="genero">
+                <option value="M">Masculino
+                </option>
+                <option value="F">Femenino
+                </option>
+                <option value="D">Mixto
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <!-- INSCRIPCIÓN ABIERTA Y FOTO -->
+        <div class="form-group">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <label for="">Inscripción abierta:</label>
+              <select class="form-control" formControlName="inscripcion_abierta">
+                <option value="S">Sí
+                </option>
+                <option value="N">No
+                </option>
+              </select>
+            </div>
+            <div class="col-12 col-md-6">
+              <label for="">Foto:</label>
+              <input *ngIf="this.formularioTorneo.get('finalizado')!.value != 'S'" class="form-control" type="file" accept="image/*" (change)="seleccionarArchivo($event)">
+              <div class="col-12">
+                <img [src]="this.imagenbase64" alt="" class="rounded" style="width: 20em;">
+              </div>
+            </div>
+          </div>
+        </div>
+                
+        <!-- BOTONERA DE ACCIONES. EDITAR QUE EDITA LOS DATOS DEL TORNEO Y CANCELAR QUE NO HACE NADA. AMBOS NOS LLEVAN A LA PÁGINA PRINCIPAL DE TORNEOS -->
+        <div class="btn-group" role="group">
+          <button *ngIf="this.formularioTorneo.valid" type="submit" class="btn botones-texto-comunes">Editar</button>
+          <button type="button" routerLink="/inicio/torneos" class="btn botones-texto-comunes">Cancelar</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+<!-- PIE DE PÁGINA COMÚN -->
+<app-footer></app-footer>

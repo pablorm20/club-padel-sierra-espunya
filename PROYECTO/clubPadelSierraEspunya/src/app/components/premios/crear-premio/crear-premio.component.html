@@ -1,0 +1,49 @@
+<!-- VISTA DE LA PÁGINA CREAR UN NUEVO PREMIO DE LA PÁGINA PRINCIPAL AL HABERSE LOGUEADO -->
+<!-- MENÚ COMÚN DE LA PÁGINA PRINCIPAL CUANDO SE ESTÁ LOGUEADO-->
+<app-menu-inicio-usuario></app-menu-inicio-usuario>
+<div class="container">
+    <div class="card">
+        <!-- TÍTULO DE LA PÁGINA -->
+        <div class="card-header header-forms">
+            Crear Premio
+        </div>
+        <!-- FORMULARIO PARA DAR CREAR UN NUEVO PREMIO. ENCONTRAMOS LOS DIFERENTES CAMPOS QUE SE PUEDEN RELLENAR -->
+        <div class="card-body cuerpo-forms">
+            <form ngNativeValidate [formGroup]="formularioNuevoPremio" (ngSubmit)="enviarDatos()">
+                <!-- NOMBRE Y PUNTOS -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <label for="">Nombre:</label>
+                            <input required type="text" class="form-control" formControlName="nombre"
+                                placeholder="Escribe su nombre">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="">Puntos:</label>
+                            <input required type="number" class="form-control" formControlName="puntos"
+                                placeholder="Escribe los puntos">
+                        </div>
+                    </div>
+                </div>
+                <!-- FOTO -->
+                <div class="form-group">
+                    <label for="">Foto:</label>
+                    <input class="form-control" type="file" accept="image/*" (change)="seleccionarArchivo($event)">
+                    <div class="alineado-centro">
+                        <img [src]="this.imagenbase64" alt="" class="rounded" style="width: 20em;">
+                    </div>
+                </div>
+                <!-- BOTONERA DE ACCIONES. AÑADIR QUE CREA EL PREMIO Y CANCELAR QUE NO HACE NADA. AMBOS NOS LLEVAN A LA PÁGINA PRINCIPAL DE PREMIOS -->
+                <div class="btn-group" role="group">
+                    <button *ngIf="this.formularioNuevoPremio.valid && this.imagenbase64" type="submit"
+                        class="btn botones-texto-comunes">Añadir</button>
+                    <button type="button" routerLink="/inicio/premios"
+                        class="btn botones-texto-comunes">Cancelar</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<!-- PIE DE PÁGINA COMÚN -->
+<app-footer></app-footer>

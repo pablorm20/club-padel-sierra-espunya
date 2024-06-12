@@ -1,0 +1,136 @@
+<!-- VISTA DE LA PÁGINA EDITAR SOCIO DE LA PÁGINA PRINCIPAL AL HABERSE LOGUEADO -->
+<!-- MENÚ COMÚN DE LA PÁGINA PRINCIPAL CUANDO SE ESTÁ LOGUEADO-->
+<app-menu-inicio-usuario></app-menu-inicio-usuario>
+<div class="container">
+    <div class="card">
+        <!-- TÍTULO DE LA PÁGINA -->
+        <div class="card-header header-forms">
+            Editar Socio
+        </div>
+        <!-- FORMULARIO PARA DAR EDITAR UN SOCIO. ENCONTRAMOS LOS DIFERENTES CAMPOS QUE SE PUEDEN RELLENAR -->
+        <div class="card-body cuerpo-forms">
+            <form ngNativeValidate [formGroup]="formularioSocio" (ngSubmit)="enviarDatos()">
+                <!-- NOMBRE Y APELLIDOS -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <label for="">Nombre:</label>
+                            <input required type="text" class="form-control" formControlName="nombre"
+                                placeholder="Escribe su nombre">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="">Apellidos:</label>
+                            <input required type="text" class="form-control" formControlName="apellidos"
+                                placeholder="Escribe sus apellidos">
+                        </div>
+                    </div>
+                </div>
+                <!-- DNI Y CORREO -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <label for="">Dni:</label>
+                            <input required type="text" class="form-control" formControlName="dni"
+                                placeholder="Escribe su dni">
+                            <label *ngIf="!validDNI(this.formularioSocio.get('dni')!.value)">
+                                <font color="white">DNI incorrecto</font>
+                            </label>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="">Correo:</label>
+                            <input required type="email" class="form-control" formControlName="correo"
+                                placeholder="Escribe su correo">
+                        </div>
+                    </div>
+                </div>
+                <!-- TELEFONO Y USUARIO -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <label for="">Telefono:</label>
+                            <input required type="number" class="form-control" formControlName="telefono"
+                                placeholder="Escribe su teléfono">
+                            <label *ngIf="!validTelefono(this.formularioSocio.get('telefono')!.value)">
+                                <font color="white">Telefono incorrecto</font>
+                            </label>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="">Usuario:</label>
+                            <input required type="text" class="form-control" formControlName="usuario"
+                                placeholder="Escribe su usuario">
+                        </div>
+                    </div>
+                </div>
+                <!-- PUNTOS PREMIOS Y PUNTOS RANKING -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <label for="">Puntos premios:</label>
+                            <input required type="number" class="form-control" formControlName="puntos_premios">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="">Puntos ranking:</label>
+                            <input required type="number" class="form-control" formControlName="puntos_ranking">
+                        </div>
+                    </div>
+                </div>
+                <!-- TORNEOS JUGADOS Y TORNEOS GANADOS -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <label for="">Torneos jugados:</label>
+                            <input required type="number" class="form-control" formControlName="torneos_jugados">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="">Torneos ganados:</label>
+                            <input required type="number" class="form-control" formControlName="torneos_ganados">
+                        </div>
+                    </div>
+                </div>
+                <!-- PARTIDOS JUGADOS Y PARTIDOS GANADOS -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <label for="">Partidos jugados:</label>
+                            <input required type="number" class="form-control" formControlName="partidos_jugados">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="">Partidos ganados:</label>
+                            <input required type="number" class="form-control" formControlName="partidos_ganados">
+                        </div>
+                    </div>
+                </div>
+                <!-- PREMIOS CANJEADOS Y GENERO -->
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <label for="">Premios canjeados:</label>
+                            <input readonly required type="number" class="form-control"
+                                formControlName="premios_canjeados">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label>Género:</label>
+                            <select class="form-control" formControlName="genero">
+                                <option value="M">Masculino
+                                </option>
+                                <option value="F">Femenino
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- BOTONERA DE ACCIONES. EDITAR QUE EDITA EL SOCIO Y CANCELAR QUE NO HACE NADA. AMBOS NOS LLEVAN A LA PÁGINA PRINCIPAL DE SOCIOS -->
+                <div class="btn-group" role="group">
+                    <button
+                        *ngIf="this.formularioSocio.valid && validDNI(this.formularioSocio.get('dni')!.value) && validTelefono(this.formularioSocio.get('telefono')!.value)"
+                        type="submit" class="btn botones-texto-comunes">Editar</button>
+                    <button type="button" routerLink="/inicio/socios"
+                        class="btn botones-texto-comunes">Cancelar</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<!-- PIE DE PÁGINA COMÚN -->
+<app-footer></app-footer>

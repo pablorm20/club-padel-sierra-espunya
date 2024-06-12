@@ -1,0 +1,59 @@
+<div class="card">
+    <div class="card-body">
+        <h1>Cerrar torneo {{torneo.nombre}}</h1>
+        <form>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-6">
+                        <label for="">Pareja Campeona:</label>
+                        <label for="sel2">Mutiple select list (hold shift to select more than one):</label>
+                        <select multiple class="form-control" id="sel2" name="sellist2">
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="">Pareja Subcampeona:</label>
+                        <input type="text" placeholder="Seleccione pareja" matInput [formControl]="subcampeon" class="form-control"
+                            [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="">Pareja semifinal 1:</label>
+                        <input type="text" placeholder="Seleccione pareja" matInput [formControl]="semif1" class="form-control"
+                            [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </div>
+                    <div class="col-6">
+                        <label for="">Pareja semifinal 2:</label>
+                        <input type="text" placeholder="Seleccione pareja" matInput [formControl]="semif2" class="form-control"
+                            [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                {{option}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn botones-texto-comunes" (click)="cerrarTorneo()">Cerrar Torneo</button>
+            <button type="button" (click)="cerrar()" class="btn botones-texto-comunes">Cancelar</button>
+        </div>
+    </div>
+</div>
