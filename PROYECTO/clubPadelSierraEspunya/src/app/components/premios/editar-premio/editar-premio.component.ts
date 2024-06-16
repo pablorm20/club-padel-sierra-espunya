@@ -22,6 +22,7 @@ export class EditarPremioComponent implements OnInit {
     base64textString: "",
     carpeta: ""
   }
+  foto: string;
   constructor(
     private activeRoute:ActivatedRoute,
     private premiosService:PremiosService,
@@ -38,7 +39,8 @@ export class EditarPremioComponent implements OnInit {
       nombre: ['', Validators.required],
       puntos: ['', Validators.required],
       foto: ['']
-    })
+    });
+    this.foto = '';
   }
 
   // Método ngOnInit que se ejecuta al iniciar el componente
@@ -51,6 +53,7 @@ export class EditarPremioComponent implements OnInit {
         puntos:respuesta[0]['puntos'],
         foto:''
       });
+      this.foto = respuesta[0]['foto'];
       // Se establece la foto a mostrar con el valor de la foto del premio
       this.imagenbase64 = Util.URLImagenes + respuesta[0]['foto'];
     });
@@ -94,6 +97,10 @@ export class EditarPremioComponent implements OnInit {
 
   // Método que se ejecuta cuando se pulsa el botón editar
   enviarDatos(): any {
+    let premio = this.formularioPremio.value;
+    if(!premio.foto){
+      premio.foto = this.foto;
+    }
     // Se llama a BBDD para editar el premios con ese id
     this.premiosService.editarPremio(this.idPremio, this.formularioPremio.value).subscribe(respuesta=>{
       this.router.navigateByUrl('/inicio/premios');

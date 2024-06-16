@@ -77,7 +77,7 @@ export class EditarPartidoComponent implements OnInit {
       this.socioDefecto = this.sociosDisponibles.filter((s: { id: number }) => s.id == -1)[0];
       // Nos quedamos con los usuarios que no seamos nosotros, otro socio o admin.
       this.sociosDisponibles = this.sociosDisponibles.filter((s: { id: number, nombre: string; }) => s.nombre != "Administrador" && s.nombre != "Otro Socio");
-      this.sociosDisponibles[0] = this.socioDefecto;
+      this.sociosDisponibles.unshift(this.socioDefecto);
       // Establecemos las horas válidas de los partidos
       this.horasValidas = ["08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00"];
       // Llamamos al método que carga las horas válidas
@@ -202,7 +202,7 @@ export class EditarPartidoComponent implements OnInit {
   // Método que comprueba si se ha introducido un socio válido en el selector 1, ya que si no no se puede crear/editar
   comprobarSocioValidoIntroducido() {
     let socio1 = this.formularioPartido.get('socio1')?.value;
-    if(!socio1){
+    if(!socio1 && this.partidoEditar){
       socio1 = this.partidoEditar.socio1;
     }
     if (socio1 == -1) {

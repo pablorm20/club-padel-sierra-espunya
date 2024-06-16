@@ -72,8 +72,10 @@ export class PremiosComponent implements OnInit {
   // Método que se ejecuta al pulsar el botón borrar. Nos pide confirmación y si aceptamos se borra el premios seleccionado.
   borrarRegistro(id: number, iControl: number) {
     if (window.confirm("¿Desea borrar el registro?")) {
-      this.premioService.borrarPremio(id).subscribe(respuesta => {
-        this.premios.splice(iControl, 1);
+      this.historicoPremioService.borrarHistoricoPremioByPremioId(id).subscribe(respuesta => {
+        this.premioService.borrarPremio(id).subscribe(respuesta => {
+          this.recargarPremios();
+        });
       });
     }
   }

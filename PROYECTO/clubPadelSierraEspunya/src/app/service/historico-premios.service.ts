@@ -27,6 +27,11 @@ export class HistoricoPremiosService {
   borrarHistoricoPremio(id:number):Observable<any>{
     return this.clienteHttp.get(this.API + "?borrar="+id);
   }
+  
+  // Método para borrar un registro de la tabla historico_premios por id del premio
+  borrarHistoricoPremioByPremioId(id:number):Observable<any>{
+    return this.clienteHttp.get(this.API + "?borrarPremio="+id);
+  }
 
   // Método para obtener un registro de la tabla historico_premios por su id
   getHistoricoPremio(id:number):Observable<any>{

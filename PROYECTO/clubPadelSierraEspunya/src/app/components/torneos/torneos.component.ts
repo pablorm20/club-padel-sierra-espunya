@@ -111,7 +111,7 @@ export class TorneosComponent implements OnInit {
     if (window.confirm("¿Desea borrar el registro?")) {
       this.parejasTorneoService.borrarTodasParejasTorneo(id).subscribe(respuesta => {
         this.torneoservice.borrarTorneo(id).subscribe(respuesta => {
-          this.torneos.splice(iControl, 1);
+          this.recargarTorneos();
         });
       });
     }

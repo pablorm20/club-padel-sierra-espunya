@@ -29,7 +29,10 @@ export class SociosComponent implements OnInit {
   borrarRegistro(id:number, iControl:number){
     if(window.confirm("¿Desea borrar el registro?")){
       this.socioService.borrarSocio(id).subscribe(respuesta=>{
-        this.socios.splice(iControl,1);
+        this.socioService.obtenerSocios().subscribe(respuesta=>{
+          this.socios=respuesta;
+          this.socios = this.socios.filter((s: { nombre: string; }) => s.nombre != "Administrador" && s.nombre != "Otro Socio");
+        });
       });
     }
   }

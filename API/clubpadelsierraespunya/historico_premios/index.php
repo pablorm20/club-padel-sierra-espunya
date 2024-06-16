@@ -40,6 +40,15 @@ if (isset($_GET["borrar"])){
     }
     else{  echo json_encode(["success"=>0]); }
 }
+//Borra pero se le debe de enviar una clave ( para borrado )
+if (isset($_GET["borrarPremio"])){
+    $sqlhistorico_premios = mysqli_query($conexionBD,"DELETE FROM historico_premios WHERE premio=".$_GET["borrarPremio"]);
+    if($sqlhistorico_premios){
+        echo json_encode(["success"=>1]);
+        exit();
+    }
+    else{  echo json_encode(["success"=>0]); }
+}
 //Inserta un nuevo registro y recibe en método post los datos necesarios
 if(isset($_GET["insertar"])){
     $data = json_decode(file_get_contents("php://input"));
